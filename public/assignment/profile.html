@@ -5,30 +5,66 @@
     <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/style.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                Fixed Top
-            </a>
-            <p class="navbar-text pull-right">
-                <a href="#" class="navbar-link">
-          <span class="glyphicon glyphicon-plus">
-          </span>
+    <!--<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    Fixed Top
                 </a>
-            </p>
+                <p class="navbar-text pull-right">
+                    <a href="#" class="navbar-link">
+              <span class="glyphicon glyphicon-plus">
+              </span>
+                    </a>
+                </p>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>-->
 
 
-    <div class="container">
-        <h1>Profile</h1>
+    <!--<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid bg-primary">
+            <div class="navbar-header">
+                <a class="navbar-brand"><b class="header-color">Profile</b></a>
+                <p class="container-fluid navbar-text pull-right text-right">
+                    <a href="#" class="navbar-link pull-right">
+                        <span class="glyphicon glyphicon-ok header-color pull-right"></span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </nav>-->
 
-        <form>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid bg-primary">
+            <div class="row navbar-text">
+                <div class="col-xs-3 text-center">
+                    <a href="#">
+                        <span class="header-color"><b>Profile</b></span>
+                    </a>
+                </div>
+                <div class="col-xs-3 text-center">
+                    <a></a>
+                </div>
+                <div class="col-xs-3 text-center">
+                    <a></a>
+                </div>
+                <div class="col-xs-3 text-center">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-ok header-color"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid profile-body">
+        <h1></h1>
+        <form class="container-fluid">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Username">
@@ -53,6 +89,18 @@
            href="login.html">Logout</a>
     </div>
 
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid navbar-footer bg-primary">
+            <div class="row navbar-text navbar-right">
+                <div class="col-xs-12 container text-center">
+                    <a><span class="glyphicon glyphicon-user footer-color pull-right"></span></a>
+                </div>
+                <!--<span class="glyphicon glyphicon-user pull-right bg-primary"></span>-->
+            </div>
+        </div>
+    </nav>
+
+<!--
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
         <div class="row navbar-text">
@@ -79,6 +127,7 @@
         </div>
     </div>
 </nav>
+-->
 
 </body>
 </html>
