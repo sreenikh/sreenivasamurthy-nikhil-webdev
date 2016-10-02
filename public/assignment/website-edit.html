@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit-website</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="row hidden-xs">
+        <div class="container-fluid bg-primary">
+            <div class="col-sm-4 zero-left-padding zero-right-padding">
+                <a class="navbar-text pull-left" href="website-list.html">
+                    <span class="glyphicon glyphicon-menu-left header-color-white"></span>
+                </a>
+                <a class="navbar-brand zero-left-padding zero-right-padding" href="#"><span class="header-color-white">Websites</span></a>
+                <p class="navbar-text pull-right">
+                    <a href="website-new.html"><span class="glyphicon glyphicon-plus header-color-white"></span></a>
+                </p>
+            </div>
+            <div class="col-sm-8 zero-left-padding zero-right-padding">
+                <a class="navbar-brand"><span class="header-color-white">Edit Website</span></a>
+                <p class="navbar-text pull-right">
+                    <a href="website-list.html"><span class="glyphicon glyphicon-ok header-color-white"></span></a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row visible-xs">
+        <div class="container-fluid bg-primary">
+            <div class="col-sm-4">
+                <p class="navbar-text pull-left"><a href="website-list.html"><span class="glyphicon glyphicon-menu-left header-color-white"></span></a></p>
+                <a class="navbar-brand"><b class="header-color-white">Edit Website</b></a>
+            </div>
+            <div class="col-sm-offset-4 col-sm-4">
+                <p class="navbar-text pull-right"><a href="website-list.html"><span class="glyphicon glyphicon-ok header-color-white"></span></a></p>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <div>
+        <div class="col-xs-0 col-sm-4 hidden-xs">
+            <div class="container-fluid list-group profile-body">
+                <h5 class="list-cell-padding">
+                    <a href="page-list.html">Address book app</a>
+                    <a href="website-edit.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+                <h5 class="list-cell-padding">
+                    <a href="page-list.html">Blogger</a>
+                    <a href="website-edit.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+                <h5 class="list-cell-padding">
+                    <a href="page-list.html">Blogging App</a>
+                    <a href="website-edit.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+                <h5 class="list-cell-padding">
+                    <a href="page-list.html">Script Testing App</a>
+                    <a href="website-edit.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+            </div>
+        </div>
+        <div class="vertical-line hidden-xs"></div>
+        <div class="col-xs-12 col-sm-8">
+            <div class="container-fluid profile-body">
+                <form>
+                    <div class="form-group">
+                        <label for="websiteName">Website Name</label>
+                        <input type="text" class="form-control" id="websiteName" placeholder="Website Name" value="Blogger">
+                    </div>
+                    <div class="form-group">
+                        <label for="websiteDescription">Website Description</label>
+                        <textarea class="form-control" rows="5" id="websiteDescription" placeholder="Website Description">Blogger is a blog-publishing service that allows multi-user blogs with time-stamped entries. It was developed by Pyra Labs, which was bought by Google in 2003. Generally, the blogs are hosted by Google at a subdomain of blogspot.com. Blogs can also be hosted in the registered custom domain of the blogger (like www.example.com). A user can have up to 100 blogs per account.</textarea>
+                    </div>
+                </form>
+                <a class="btn btn-danger btn-block"
+                   href="website-list.html">Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid navbar-footer bg-primary">
+            <div class="row navbar-text navbar-right">
+                <div class="col-xs-12 container text-center">
+                    <a href="profile.html.html"><span class="glyphicon glyphicon-user footer-color-white pull-right"></span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+</body>
+</html>

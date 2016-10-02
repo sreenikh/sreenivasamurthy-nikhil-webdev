@@ -11,10 +11,109 @@ body {
     margin-bottom: 50px;
 }
 
-.header-color {
+.header-color-white {
     color: white;
 }
 
-.footer-color {
+.footer-color-white {
     color: white;
+}
+
+.header-color-black {
+    color: black;
+}
+
+.footer-color-black {
+    color: black;
+}
+
+.list-cell-padding {
+    padding-left: 10px;
+    padding-right: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.list-cell-element-right-padding {
+    padding-right: 5px;
+}
+
+.widget-list-element-top-bottom-margin {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.color-black {
+    color: black;
+}
+
+.zero-left-padding {
+    padding-left: 0px;
+}
+
+.zero-right-padding {
+    padding-right: 0px;
+}
+
+.footer-element-padding {
+    padding-right: 10px;
+}
+
+.relative-position {
+    position: relative;
+}
+
+.absolute-position {
+    position: absolute;
+}
+
+.list-element-menu {
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+    background-color: white;
+}
+
+.zero-margin-top {
+    margin-top: 0px;
+}
+
+.word-wrap-break-word {
+    word-wrap: break-word;
+}
+
+/*.vr {
+    display: block;
+    width:10px;
+    background-color:#000;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:150px;
+}*/
+
+/*
+@media only screen and (orientation: landscape) {
+    .orientation-based-display-narrow-column {}
+    .orientation-based-display-wide-column {}
+}
+
+@media only screen and (orientation: portrait) {
+    .orientation-based-display-narrow-column {
+        display: none;
+    }
+    .orientation-based-display-wide-column {
+        !*width: 100%;*!
+    }
+}*/
+
+.vertical-line:after{
+    content: '';
+    width: 0;
+    height: 100%;
+    position: absolute;
+    border: 1px solid lightgrey;
+    top: 0;
+    left: 33.3333333%;
+    z-index: -1;
 }
