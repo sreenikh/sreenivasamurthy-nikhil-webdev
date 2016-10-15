@@ -1,0 +1,65 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website-list</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="row">
+            <div class="container-fluid bg-primary">
+                <div class="col-md-4">
+                    <p class="navbar-text pull-left"><a href="../user/profile.view.client.html"><span class="glyphicon glyphicon-menu-left header-color-white"></span></a></p>
+                    <a class="navbar-brand"><b class="header-color-white">Websites</b></a>
+                </div>
+                <div class="col-md-offset-4 col-md-4">
+                    <p class="navbar-text pull-right"><a href="#/website/new"><span class="glyphicon glyphicon-plus header-color-white"></span></a></p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="container-fluid zero-right-padding">
+            <div class="container-fluid list-group profile-body">
+                <h5 ng-repeat="website in model.websites" class="list-cell-padding">
+                    <a href="../page-list.html">{{website.name}}</a>
+                    <a href="#/website/website._id"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+
+
+                <!--<h5 class="list-cell-padding">
+                    <a href="../page-list.html">Address book app</a>
+                    <a href="#/website/123"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+                <h5 class="list-cell-padding">
+                    <a href="../page-list.html">Blogger</a>
+                    <a href="#/website/234"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+                <h5 class="list-cell-padding">
+                    <a href="../page-list.html">Blogging App</a>
+                    <a href="#/website/345"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>
+                <h5 class="list-cell-padding">
+                    <a href="../page-list.html">Script Testing App</a>
+                    <a href="#/website/456"><span class="glyphicon glyphicon-cog pull-right"></span></a>
+                </h5>-->
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid navbar-footer bg-primary">
+            <div class="row navbar-text navbar-right">
+                <div class="col-xs-12 container text-center">
+                    <a href="#/profile"><span class="glyphicon glyphicon-user footer-color-white pull-right"></span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+<!--
+</body>
+</html>-->
