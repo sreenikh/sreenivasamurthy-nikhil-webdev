@@ -74,12 +74,23 @@ body {
     background-color: white;
 }
 
+.no-border {
+    border: none;
+}
+
 .zero-margin-top {
     margin-top: 0px;
 }
 
 .word-wrap-break-word {
     word-wrap: break-word;
+}
+
+.scrollable {
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+    overflow: auto;
 }
 
 /*.vr {

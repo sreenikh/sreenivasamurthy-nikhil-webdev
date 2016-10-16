@@ -3,6 +3,8 @@
  */
 
 (function () {
+    "use strict";
+
     angular
         .module("WebAppMaker")
         .controller("WebsiteListController", websiteListController);
