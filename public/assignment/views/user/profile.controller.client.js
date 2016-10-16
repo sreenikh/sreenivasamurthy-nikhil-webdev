@@ -7,9 +7,9 @@
 
     angular
         .module("WebAppMaker")
-        .controller("ProfileController", profileController);
+        .controller("ProfileController", ProfileController);
 
-    function profileController($routeParams, UserService) {
+    function ProfileController($routeParams, UserService) {
         var vm = this;
 
         var userId = parseInt($routeParams.uid);

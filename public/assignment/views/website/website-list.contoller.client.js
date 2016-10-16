@@ -7,9 +7,9 @@
 
     angular
         .module("WebAppMaker")
-        .controller("WebsiteListController", websiteListController);
+        .controller("WebsiteListController", WebsiteListController);
 
-    /*function websiteListController($scope) {
+    /*function WebsiteListController($scope) {
         var websites = [
             {"_id": 123, "name": "Facebook", "description": "Most popular social networking website"},
             {"_id": 234, "name": "Wikipedia", "description": "World's encyclopedia"}
@@ -17,7 +17,7 @@
         $scope.websites = websites;
     }*/
 
-    function websiteListController($routeParams, WebsiteService) {
+    function WebsiteListController($routeParams, WebsiteService) {
         var vm = this;
         //var userId = $routeParams.uid;
         var userId = parseInt($routeParams['uid']); // better

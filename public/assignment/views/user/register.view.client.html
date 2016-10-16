@@ -1,28 +1,34 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/style.css" rel="stylesheet"/>
-</head>
-<body>-->
+<div>
     <div class="container">
         <h1>Register</h1>
-        <input type="text"
+        <input id="username"
+               type="text"
+               ng-model="model.username"
                class="form-control"
-               placeholder="username"/>
-        <input type="password"
+               placeholder="Username (Used for login)"/>
+        <input id="firstName"
+               type="text"
+               ng-model="model.firstName"
                class="form-control"
-               placeholder="password"/>
-        <input type="password"
+               placeholder="First Name"/>
+        <input id="lastName"
+               type="text"
+               ng-model="model.lastName"
                class="form-control"
-               placeholder="very password"/>
-        <a class="btn btn-primary btn-block"
-           href="#/profile">Register</a>
-        <a class="btn btn-danger  btn-block"
+               placeholder="Last Name"/>
+        <input id="password1"
+               type="password"
+               ng-model="model.password1"
+               class="form-control"
+               placeholder="Password"/>
+        <input id="password2"
+               type="password"
+               ng-model="model.password2"
+               class="form-control"
+               placeholder="Verify Password"/>
+        <a ng-click="model.register(model.username, model.firstName, model.lastName, model.password1, model.password2)"
+           class="btn btn-primary btn-block">Register</a>
+        <a class="btn btn-danger btn-block"
            href="#/login">Cancel</a>
     </div>
-<!--
-</body>
-</html>-->
+</div>

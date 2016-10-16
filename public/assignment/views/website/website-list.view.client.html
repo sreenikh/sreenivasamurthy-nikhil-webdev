@@ -1,0 +1,39 @@
+<div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="row">
+            <div class="container-fluid bg-primary">
+                <div class="col-md-4">
+                    <p class="navbar-text pull-left"><a href="../user/profile.view.client.html"><span class="glyphicon glyphicon-menu-left header-color-white"></span></a></p>
+                    <a class="navbar-brand"><b class="header-color-white">Websites</b></a>
+                </div>
+                <div class="col-md-offset-4 col-md-4">
+                    <p class="navbar-text pull-right"><a href="#/website/new"><span class="glyphicon glyphicon-plus header-color-white"></span></a></p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="container-fluid zero-right-padding">
+            <ul class="container-fluid list-group profile-body">
+                <li ng-repeat="website in model.websites"
+                    class="list-group-item no-border zero-left-padding zero-right-padding">
+                    <a href="#">{{website.name}}</a>
+                    <a href="#/website/website._id" class="pull-right">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid navbar-footer bg-primary">
+            <div class="row navbar-text navbar-right">
+                <div class="col-xs-12 container text-center">
+                    <a href="#/profile"><span class="glyphicon glyphicon-user footer-color-white pull-right"></span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

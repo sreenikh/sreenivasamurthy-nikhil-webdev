@@ -1,14 +1,5 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/style.css" rel="stylesheet"/>
-</head>
-<body>-->
+<div>
     <div class="container">
-        <!--{{model.hello}}-->
         <div ng-show="model.error" class="alert alert-danger" role="alert">{{model.error}}</div>
         <h1>Login</h1>
         <input type="text"
@@ -19,16 +10,9 @@
                ng-model="model.password"
                class="form-control"
                placeholder="password"/>
-        <!--<h4>
-            {{username}}
-        </h4>-->
-        <!--<a class="btn btn-primary btn-block"
-           href="#/profile">Login</a>-->
         <a ng-click="model.login(model.username, model.password)"
            class="btn btn-primary btn-block">Login</a>
         <a class="btn btn-success btn-block"
            href="#/register">Register</a>
     </div>
-<!--
-</body>
-</html>-->
+</div>
