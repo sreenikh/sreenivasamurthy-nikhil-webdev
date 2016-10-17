@@ -2,14 +2,41 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid row">
             <div class="container-fluid">
-                <p class="navbar-text pull-left"><a href="../views/website/website-list.html"><span class="glyphicon glyphicon-menu-left footer-color-black"></span></a></p>
+                <p class="navbar-text pull-left">
+                    <a ng-click="model.enlistWebsites()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-menu-left footer-color-black"></span>
+                    </a>
+                </p>
                 <a class="navbar-brand"><b>Pages</b></a>
-                <p class="navbar-text pull-right"><a href="page-new.view.client.html"><span class="glyphicon glyphicon-plus footer-color-black"></span></a></p>
+                <p class="navbar-text pull-right">
+                    <a ng-click="model.navigateToAddPage()">
+                        <span class="glyphicon glyphicon-plus footer-color-black"></span>
+                    </a>
+                </p>
             </div>
         </div>
     </nav>
 
     <div class="container-fluid">
+        <div class="container-fluid zero-right-padding">
+            <ul class="container-fluid list-group profile-body">
+                <li ng-repeat="page in model.pages"
+                    class="list-group-item no-border zero-left-padding zero-right-padding">
+                    <a ng-click="model.enlistWidgets(page)"
+                       class="pointer">
+                        {{page.name}}
+                    </a>
+                    <a ng-click="model.navigateToEditPage(page)"
+                       class="pointer pull-right">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--<div class="container-fluid">
         <div class="list-group profile-body">
             <h5 class="list-cell-padding">
                 <a href="../views/widget/widget-list.html">Blog post</a>
@@ -32,13 +59,18 @@
                 <a href="page-edit.view.client.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
             </h5>
         </div>
-    </div>
+    </div>-->
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container-fluid row">
             <div class="container-fluid">
-                <p class="navbar-text pull-right"><a href="../views/user/profile.view.client.html"><span class="glyphicon glyphicon-user"></span></a></p>
+                <p class="navbar-text pull-right">
+                    <a ng-click="model.navigateToProfile()">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </a>
+                </p>
             </div>
         </div>
     </nav>
+
 </div>

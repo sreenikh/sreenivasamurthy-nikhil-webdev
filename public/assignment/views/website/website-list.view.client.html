@@ -3,11 +3,21 @@
         <div class="row">
             <div class="container-fluid bg-primary">
                 <div class="col-md-4">
-                    <p class="navbar-text pull-left"><a href="../user/profile.view.client.html"><span class="glyphicon glyphicon-menu-left header-color-white"></span></a></p>
+                    <p class="navbar-text pull-left">
+                        <a ng-click="model.navigateToProfile()"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-menu-left header-color-white"></span>
+                        </a>
+                    </p>
                     <a class="navbar-brand"><b class="header-color-white">Websites</b></a>
                 </div>
                 <div class="col-md-offset-4 col-md-4">
-                    <p class="navbar-text pull-right"><a href="#/website/new"><span class="glyphicon glyphicon-plus header-color-white"></span></a></p>
+                    <p class="navbar-text pull-right">
+                        <a ng-click="model.navigateToAddWebsite()"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-plus header-color-white"></span>
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -22,7 +32,7 @@
                        class="pointer">
                         {{website.name}}
                     </a>
-                    <a ng-click="model.editWebsite(website)"
+                    <a ng-click="model.navigateToEditWebsite(website)"
                        class="pointer pull-right">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
@@ -35,7 +45,10 @@
         <div class="container-fluid navbar-footer bg-primary">
             <div class="row navbar-text navbar-right">
                 <div class="col-xs-12 container text-center">
-                    <a href="#/profile"><span class="glyphicon glyphicon-user footer-color-white pull-right"></span></a>
+                    <a ng-click="model.navigateToProfile()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-user footer-color-white pull-right"></span>
+                    </a>
                 </div>
             </div>
         </div>

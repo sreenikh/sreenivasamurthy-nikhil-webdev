@@ -11,10 +11,6 @@
     
     function userService() {
         var idSet = new Set();
-        idSet.add("123");
-        idSet.add("234");
-        idSet.add("345");
-        idSet.add("456");
         var lastCreatedId = 1000;
 
         var users = [
@@ -23,6 +19,10 @@
             {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia"  },
             {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
         ];
+
+        for (var u in users) {
+            idSet.add(users[u]._id);
+        }
 
         var api = {
             createUser: createUser,

@@ -9,7 +9,7 @@
         .module("WebAppMaker")
         .controller("LoginController", LoginController)
         .controller("RegisterController", RegisterController)
-        .controller("ProfileController", ProfileController);;
+        .controller("ProfileController", ProfileController);
 
     // vm means view model
     function LoginController($location, UserService) {
@@ -60,6 +60,7 @@
         var vm = this;
         vm.enlistWebsites = enlistWebsites;
         vm.saveProfile = saveProfile;
+        vm.navigateToProfile = navigateToProfile;
 
         //var userId = parseInt($routeParams.uid);
         var userId = $routeParams.uid;
@@ -93,6 +94,10 @@
 
                 }
             }
+        }
+
+        function navigateToProfile() {
+            $location.url("/user/" + userId);
         }
     }
 })();

@@ -42,8 +42,13 @@
         }
 
         function createWebsite(userId, website) {
-            console.log(userId)
+            if ("" === website.name) {
+                return null;
+            }
             for (var w in websites) {
+                if (userId !== websites[w].developerId) {
+                    continue;
+                }
                 if (website.name === websites[w].name) {
                     return null;
                 }
@@ -54,7 +59,7 @@
                 "name": website.name,
                 "description": website.description,
                 "developerId": userId};
-            websites.push(newUser);
+            websites.push(newWebsite);
             return newWebsite;
         }
 
@@ -84,7 +89,9 @@
                     continue;
                 }
                 if (websiteId === existingWebsite._id) {
-                    if ((null === findWebsiteByName(website.name, website.developerId)) && ("" !== website.name)) {
+                    if ((website.developerId === existingWebsite.developerId) ||
+                            ((null === findWebsiteByName(website.name, website.developerId)) &&
+                                ("" !== website.name))) {
                         existingWebsite.name = website.name;
                         existingWebsite.description = website.description;
                         return true;
@@ -93,10 +100,10 @@
                     }
                 }
             }
+            return false;
         }
 
         function deleteWebsite(websiteId) {
-            var u = null;
             var websiteIdFound = false;
             for (var w in websites) {
                 if (websiteId === websites[w]._id) {

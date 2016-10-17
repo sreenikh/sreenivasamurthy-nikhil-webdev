@@ -1,29 +1,27 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Website-list</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>-->
-<body>
+<div>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="row hidden-xs">
             <div class="container-fluid bg-primary">
                 <div class="col-sm-4 zero-left-padding zero-right-padding">
-                    <a class="navbar-text pull-left" href="website-list.view.client.html">
+                    <a ng-click="model.enlistWebsites()"
+                       class="navbar-text pointer pull-left">
                         <span class="glyphicon glyphicon-menu-left header-color-white"></span>
                     </a>
-                    <a class="navbar-brand zero-left-padding zero-right-padding" href="#"><span class="header-color-white">Websites</span></a>
+                    <a class="navbar-brand zero-left-padding zero-right-padding"><span class="header-color-white">Websites</span></a>
                     <p class="navbar-text pull-right">
-                        <a href="website-new.view.client.html"><span class="glyphicon glyphicon-plus header-color-white"></span></a>
+                        <a ng-click="model.navigateToAddWebsite()"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-plus header-color-white"></span>
+                        </a>
                     </p>
                 </div>
                 <div class="col-sm-8 zero-left-padding zero-right-padding">
                     <a class="navbar-brand"><span class="header-color-white">New Website</span></a>
                     <p class="navbar-text pull-right">
-                        <a href="website-list.view.client.html"><span class="glyphicon glyphicon-ok header-color-white"></span></a>
+                        <a ng-click="model.addWebsite(model.websiteName, model.websiteDescription)"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-ok header-color-white"></span>
+                        </a>
                     </p>
                 </div>
             </div>
@@ -31,48 +29,60 @@
         <div class="row visible-xs">
             <div class="container-fluid bg-primary">
                 <div class="col-sm-4">
-                    <p class="navbar-text pull-left"><a href="website-list.view.client.html"><span class="glyphicon glyphicon-menu-left header-color-white"></span></a></p>
-                    <a class="navbar-brand"><b class="header-color-white">Edit Website</b></a>
+                    <p class="navbar-text pull-left">
+                        <a ng-click="model.enlistWebsites()"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-menu-left header-color-white"></span>
+                        </a>
+                    </p>
+                    <a class="navbar-brand"><b class="header-color-white">New Website</b></a>
                 </div>
                 <div class="col-sm-offset-4 col-sm-4">
-                    <p class="navbar-text pull-right"><a href="website-list.view.client.html"><span class="glyphicon glyphicon-ok header-color-white"></span></a></p>
+                    <p class="navbar-text pull-right">
+                        <a ng-click="model.addWebsite(model.websiteName, model.websiteDescription)"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-ok header-color-white"></span>
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
     </nav>
 
     <div>
-        <div class="col-xs-0 col-sm-4 hidden-xs">
-            <div class="container-fluid list-group profile-body">
-                <h5 class="list-cell-padding">
-                    <a href="../page-list.html">Address book app</a>
-                    <a href="website-edit.view.client.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
-                </h5>
-                <h5 class="list-cell-padding">
-                    <a href="../page-list.html">Blogger</a>
-                    <a href="website-edit.view.client.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
-                </h5>
-                <h5 class="list-cell-padding">
-                    <a href="../page-list.html">Blogging App</a>
-                    <a href="website-edit.view.client.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
-                </h5>
-                <h5 class="list-cell-padding">
-                    <a href="../page-list.html">Script Testing App</a>
-                    <a href="website-edit.view.client.html"><span class="glyphicon glyphicon-cog pull-right"></span></a>
-                </h5>
-            </div>
+        <div class="col-xs-0 col-sm-4 hidden-xs scrollable">
+            <ul class="container-fluid list-group zero-right-padding">
+                <li ng-repeat="website in model.websites"
+                    class="list-group-item no-border zero-left-padding zero-right-padding">
+                    <a ng-click="model.enlistPages(website)"
+                       class="pointer">
+                        {{website.name}}
+                    </a>
+                    <a ng-click="model.navigateToEditWebsite(website)"
+                       class="pointer pull-right">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
+
         <div class="vertical-line hidden-xs"></div>
-        <div class="col-xs-12 col-sm-8">
+
+        <div class="col-xs-12 col-sm-8 pull-right">
             <div class="container-fluid profile-body">
                 <form>
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name">
+                        <label for="websiteName">Name</label>
+                        <input id="websiteName"
+                               ng-model="model.websiteName"
+                               type="text" class="form-control" placeholder="Name">
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" rows="5" id="description" placeholder="Description"></textarea>
+                        <label for="websiteDescription">Description</label>
+                        <textarea id="websiteDescription"
+                                  ng-model="model.websiteDescription"
+                                  class="form-control" rows="5" placeholder="Description">
+                        </textarea>
                     </div>
                 </form>
             </div>
@@ -83,11 +93,12 @@
         <div class="container-fluid navbar-footer bg-primary">
             <div class="row navbar-text navbar-right">
                 <div class="col-xs-12 container text-center">
-                    <a href="../user/profile.view.client.html"><span class="glyphicon glyphicon-user footer-color-white pull-right"></span></a>
+                    <a ng-click="model.navigateToProfile()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-user footer-color-white pull-right"></span>
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
-<!--
-</body>
-</html>-->
+</div>
