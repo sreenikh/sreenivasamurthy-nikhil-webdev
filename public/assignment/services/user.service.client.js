@@ -14,6 +14,7 @@
         idSet.add("123");
         idSet.add("234");
         idSet.add("345");
+        idSet.add("456");
         var lastCreatedId = 1000;
 
         var users = [
@@ -40,7 +41,6 @@
         }
         
         function createUser(user) {
-            console.log(user);
             for (var u in users) {
                 if (user.username === users[u].username) {
                     return null;
@@ -54,7 +54,6 @@
                 firstName: user.firstName,
                 lastName: user.lastName};
             users.push(newUser);
-            console.log(users);
             return newUser;
         }
 
@@ -62,7 +61,8 @@
             for (var u in users) {
                 var user = users[u];
                 if (user._id === userId) {
-                    return user;
+                    //return user;
+                    return cloneObject(user);
                 }
             }
             return null;
@@ -72,7 +72,8 @@
             for (var u in users) {
                 var user = users[u];
                 if (user.username === username) {
-                    return user;
+                    //return user;
+                    return cloneObject(user);
                 }
             }
             return null;
@@ -82,34 +83,53 @@
             for (var u in users) {
                 var user = users[u];
                 if (user.username === username && user.password === password) {
-                    return user;
+                    //return user;
+                    return cloneObject(user);
                 }
             }
             return null;
         }
 
         function updateUser(userId, user) {
+            if ("" === user.username) {
+                return false;
+            }
             for (var u in users) {
                 var tempUser = users[u];
                 if (user._id === userId) {
-                    tempUser.username = user.username;
-                    tempUser.password = user.password;
-                    tempUser.firstName = user.firstName;
-                    tempUser.lastName = user.lastName;
-                    break;
+                    var existentUser = findUserByUsername(user.username)
+                    if (null === existentUser || existentUser.username === user.username) {
+                        tempUser.username = user.username;
+                        tempUser.password = user.password;
+                        tempUser.firstName = user.firstName;
+                        tempUser.lastName = user.lastName;
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
+            return null;
         }
 
         function deleteUser(userId) {
             var u = null;
+            var userIdFound = False;
             for (u in users) {
                 var user = users[u];
                 if (userId === user._id) {
+                    userIdFound = true;
                     break;
                 }
             }
-            users.splice(u, 1);
+            if (userIdFound) {
+                users.splice(u, 1);
+            }
+            return userIdFound;
+        }
+
+        function cloneObject(object) {
+            return JSON.parse(JSON.stringify(object));
         }
     }
 })();

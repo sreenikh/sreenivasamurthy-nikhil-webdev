@@ -18,8 +18,12 @@
             <ul class="container-fluid list-group profile-body">
                 <li ng-repeat="website in model.websites"
                     class="list-group-item no-border zero-left-padding zero-right-padding">
-                    <a href="#">{{website.name}}</a>
-                    <a href="#/website/website._id" class="pull-right">
+                    <a ng-click="model.enlistPages(website)"
+                       class="pointer">
+                        {{website.name}}
+                    </a>
+                    <a ng-click="model.editWebsite(website)"
+                       class="pointer pull-right">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
                 </li>

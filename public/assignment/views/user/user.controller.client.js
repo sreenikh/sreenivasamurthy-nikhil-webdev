@@ -8,7 +8,8 @@
     angular
         .module("WebAppMaker")
         .controller("LoginController", LoginController)
-        .controller("RegisterController", RegisterController);
+        .controller("RegisterController", RegisterController)
+        .controller("ProfileController", ProfileController);;
 
     // vm means view model
     function LoginController($location, UserService) {
@@ -51,6 +52,46 @@
                 document.getElementById("password2").value = "";
             } else {
                 $location.url("/user/" + newlyCreatedUser._id);
+            }
+        }
+    }
+
+    function ProfileController($routeParams, $location, UserService) {
+        var vm = this;
+        vm.enlistWebsites = enlistWebsites;
+        vm.saveProfile = saveProfile;
+
+        //var userId = parseInt($routeParams.uid);
+        var userId = $routeParams.uid;
+
+        var user = UserService.findUserById(userId);
+
+        function init() {
+            if (null != user) {
+                vm.user = user;
+            }
+        }
+        init();
+
+        function enlistWebsites(user) {
+            if (null != user) {
+                $location.url("/user/" + user._id + "/website");
+            }
+        }
+
+        function saveProfile(user) {
+            var updateSuccess = UserService.updateUser(userId, user);
+            if (null == updateSuccess) {
+                alert("Update failed!");
+            } else {
+                if (!updateSuccess) {
+                    alert("User name either exists or is null. Please choose a different one.");
+                    user.username = UserService.findUserById(user._id).username;
+                    document.getElementById("username").value = user.username;
+                } else {
+                    alert("Update was successful!");
+
+                }
             }
         }
     }

@@ -14,7 +14,10 @@
                 <div class="col-sm-8 zero-left-padding zero-right-padding">
                     <a class="navbar-brand"><span class="header-color-white">Edit Website</span></a>
                     <p class="navbar-text pull-right">
-                        <a href="website-list.view.client.html"><span class="glyphicon glyphicon-ok header-color-white"></span></a>
+                        <a ng-click="model.updateWebsite(model.currentWebsite)"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-ok header-color-white"></span>
+                        </a>
                     </p>
                 </div>
             </div>
@@ -26,7 +29,12 @@
                     <a class="navbar-brand"><b class="header-color-white">Edit Website</b></a>
                 </div>
                 <div class="col-sm-offset-4 col-sm-4">
-                    <p class="navbar-text pull-right"><a href="website-list.view.client.html"><span class="glyphicon glyphicon-ok header-color-white"></span></a></p>
+                    <p class="navbar-text pull-right">
+                        <a ng-click="model.updateWebsite(model.currentWebsite)"
+                           class="pointer">
+                            <span class="glyphicon glyphicon-ok header-color-white"></span>
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -35,11 +43,14 @@
     <div>
         <div class="col-xs-0 col-sm-4 hidden-xs scrollable">
             <ul class="container-fluid list-group zero-right-padding">
-                <li class="list-group-item no-border zero-left-padding zero-right-padding">
-                    <a href="#">
-                        Cras justo odio
+                <li ng-repeat="website in model.websites"
+                    class="list-group-item no-border zero-left-padding zero-right-padding">
+                    <a ng-click="model.enlistPages(website)"
+                       class="pointer">
+                        {{website.name}}
                     </a>
-                    <a href="#" class="pull-right">
+                    <a ng-click="model.editWebsite(website)"
+                       class="pointer pull-right">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
                 </li>
@@ -53,11 +64,19 @@
                 <form>
                     <div class="form-group">
                         <label for="websiteName">Website Name</label>
-                        <input type="text" class="form-control" id="websiteName" placeholder="Website Name" value="Blogger">
+                        <input id="websiteName"
+                               ng-model="model.currentWebsite.name"
+                               type="text" class="form-control"
+                               placeholder="Website Name" value="Blogger">
                     </div>
                     <div class="form-group">
                         <label for="websiteDescription">Website Description</label>
-                        <textarea class="form-control" rows="5" id="websiteDescription" placeholder="Website Description">Blogger is a blog-publishing service that allows multi-user blogs with time-stamped entries. It was developed by Pyra Labs, which was bought by Google in 2003. Generally, the blogs are hosted by Google at a subdomain of blogspot.com. Blogs can also be hosted in the registered custom domain of the blogger (like www.example.com). A user can have up to 100 blogs per account.</textarea>
+                        <textarea id="websiteDescription"
+                                  ng-model="model.currentWebsite.description"
+                                  class="form-control" rows="5"
+                                  placeholder="Website Description">
+                        </textarea>
+                        <!--<textarea class="form-control" rows="5" id="websiteDescription" placeholder="Website Description">Blogger is a blog-publishing service that allows multi-user blogs with time-stamped entries. It was developed by Pyra Labs, which was bought by Google in 2003. Generally, the blogs are hosted by Google at a subdomain of blogspot.com. Blogs can also be hosted in the registered custom domain of the blogger (like www.example.com). A user can have up to 100 blogs per account.</textarea>-->
                     </div>
                 </form>
                 <a class="btn btn-danger btn-block"
