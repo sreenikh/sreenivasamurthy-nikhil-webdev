@@ -83,6 +83,9 @@
         }
 
         function updateWebsite(websiteId, website) {
+            if ("" === website.name) {
+                return false;
+            }
             for (var w in websites) {
                 var existingWebsite = websites[w];
                 if (website.developerId !== existingWebsite.developerId) {
@@ -90,8 +93,7 @@
                 }
                 if (websiteId === existingWebsite._id) {
                     if ((website.developerId === existingWebsite.developerId) ||
-                            ((null === findWebsiteByName(website.name, website.developerId)) &&
-                                ("" !== website.name))) {
+                            ((null === findWebsiteByName(website.name, website.developerId)))) {
                         existingWebsite.name = website.name;
                         existingWebsite.description = website.description;
                         return true;

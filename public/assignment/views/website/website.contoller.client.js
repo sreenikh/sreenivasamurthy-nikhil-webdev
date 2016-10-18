@@ -73,7 +73,6 @@
 
         function updateWebsite(website) {
             var updateSuccess = WebsiteService.updateWebsite(websiteId, website);
-            console.log(updateSuccess);
             if (!updateSuccess) {
                 alert("User name either exists or is null. Please choose a different one.");
                 currentWebsite.name = WebsiteService.findWebsiteById(currentWebsite._id).name;
@@ -143,7 +142,7 @@
             var website = {name: vm.websiteName, description: vm.websiteDescription};
             var addition = WebsiteService.createWebsite(userId, website);
             if (null === addition) {
-                alert("User name either exists or is null. Please choose a different one.");
+                alert("Website name either exists or is null. Please choose a different one.");
             } else {
                 websites = WebsiteService.findWebsitesForUser(userId);
                 vm.websites = websites;

@@ -14,17 +14,17 @@
         var lastCreatedId = 1000;
 
         var pages = [
-            { "_id": "321", "name": "Post 1", "websiteId": "456" },
-            { "_id": "432", "name": "Post 2", "websiteId": "456" },
-            { "_id": "543", "name": "Post 3", "websiteId": "456" }
+            { "_id": "321", "name": "Post 1", "websiteId": "456", "title": "Title 1"},
+            { "_id": "432", "name": "Post 2", "websiteId": "456", "title": "Title 2"},
+            { "_id": "543", "name": "Post 3", "websiteId": "456", "title": "Title 3"}
         ];
 
         var api = {
             createPage: createPage,
-            findPageByWebsiteId: findPageByWebsiteId,
+            findPagesByWebsiteId: findPagesByWebsiteId,
             findPageById: findPageById,
             updatePage: updatePage,
-            deleteWebsite: deletePage
+            deletePage: deletePage
         };
         return api;
 
@@ -55,7 +55,7 @@
             return newPage;
         }
         
-        function findPageByWebsiteId(websiteId) {
+        function findPagesByWebsiteId(websiteId) {
             var result = [];
             for (var p in pages) {
                 if (websiteId === pages[p].websiteId) {
@@ -75,15 +75,18 @@
         }
 
         function updatePage(pageId, page) {
+            if ("" === page.name) {
+                return false;
+            }
             for (var p in pages) {
-                var existingPage = page[p];
+                var existingPage = pages[p];
                 if (page.websiteId !== existingPage.websiteId) {
                     continue;
                 }
                 if (pageId === existingPage._id) {
-                    if ((page.websiteId === existingPage.websiteId) ||
-                        ((null === findPageByName(page.name, page.websiteId)) && ("" !== page.name))) {
+                    if ((null === findPageByName(page.name, page.websiteId)) || (existingPage.name === page.name)) {
                         existingPage.name = page.name;
+                        existingPage.title = page.title;
                         return true;
                     } else {
                         return false;
