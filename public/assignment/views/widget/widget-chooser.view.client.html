@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Widget Chooser</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
+<div>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid row">
             <div class="container-fluid">
-                <p class="navbar-text pull-left"><a href="widget-list.view.client.html"><span class="glyphicon glyphicon-menu-left footer-color-black"></span></a></p>
+                <p class="navbar-text pull-left">
+                    <a ng-click="model.enlistWidgets()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-menu-left footer-color-black"></span>
+                    </a>
+                </p>
                 <a class="navbar-brand" href="#"><b>Choose Widget</b></a>
             </div>
         </div>
@@ -19,35 +15,21 @@
 
     <div class="container-fluid">
         <div class="list-group profile-body">
-            <a href="widget-heading.view.client.html">
+            <a ng-click="model.addHeaderWidget()"
+               class="pointer">
                 <h5 class="list-cell-padding">Header</h5>
             </a>
-            <a href="#">
-                <h5 class="list-cell-padding">Label</h5>
-            </a>
-            <a href="#">
+            <a ng-click="model.addHtmlWidget()"
+               class="pointer">
                 <h5 class="list-cell-padding">HTML</h5>
             </a>
-            <a href="#">
-                <h5 class="list-cell-padding">Text Input</h5>
-            </a>
-            <a href="#">
-                <h5 class="list-cell-padding">Link</h5>
-            </a>
-            <a href="#">
-                <h5 class="list-cell-padding">Button</h5>
-            </a>
-            <a href="widget-image.view.client.html">
+            <a ng-click="model.addImageWidget()"
+               class="pointer">
                 <h5 class="list-cell-padding">Image</h5>
             </a>
-            <a href="widget-youtube.view.client.html">
+            <a ng-click="model.addYouTubeWidget()"
+               class="pointer">
                 <h5 class="list-cell-padding">YouTube</h5>
-            </a>
-            <a href="#">
-                <h5 class="list-cell-padding">Data Table</h5>
-            </a>
-            <a href="#">
-                <h5 class="list-cell-padding">Repeater</h5>
             </a>
         </div>
     </div>
@@ -55,9 +37,45 @@
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container-fluid row">
             <div class="container-fluid">
-                <p class="navbar-text pull-right"><a href="../views/user/profile.view.client.html"><span class="glyphicon glyphicon-user"></span></a></p>
+                <p class="navbar-text pull-right">
+                    <a ng-click="model.navigateToProfile()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </a>
+                </p>
             </div>
         </div>
     </nav>
-</body>
-</html>
+</div>
+
+<!--
+<a href="widget-header.view.client.html">
+    <h5 class="list-cell-padding">Header</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">Label</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">HTML</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">Text Input</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">Link</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">Button</h5>
+</a>
+<a href="widget-image.view.client.html">
+    <h5 class="list-cell-padding">Image</h5>
+</a>
+<a href="widget-youtube.view.client.html">
+    <h5 class="list-cell-padding">YouTube</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">Data Table</h5>
+</a>
+<a href="#">
+    <h5 class="list-cell-padding">Repeater</h5>
+</a>-->

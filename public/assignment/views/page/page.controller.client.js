@@ -122,6 +122,7 @@
                 vm.pages = pages;
                 document.getElementById("pageName").value = "";
                 document.getElementById("pageTitle").value = "";
+                $location.url("/user/" + userId + "/website/" + websiteId + "/page/");
             }
         }
 

@@ -55,6 +55,14 @@ body {
     padding-right: 0px;
 }
 
+.zero-top-padding {
+    padding-top: 0px;
+}
+
+.zero-bottom-padding {
+    padding-bottom: 0px;
+}
+
 .footer-element-padding {
     padding-right: 10px;
 }
@@ -80,6 +88,10 @@ body {
 
 .zero-margin-top {
     margin-top: 0px;
+}
+
+.zero-margin-bottom {
+    margin-bottom: 0px;
 }
 
 .word-wrap-break-word {

@@ -32,8 +32,16 @@
         vm.register = register;
 
         function register(username, firstName, lastName, password1, password2) {
-            if (password1 != password2) {
-                alert("Passwords don't match!");
+            if (null === username || "" === username || undefined === username) {
+                vm.usernameError = "Username cannot be empty";
+                return;
+            }
+            if (null === firstName || "" === firstName || undefined === firstName) {
+                vm.firstNameError = "First name cannot be empty";
+                return;
+            }
+            if (password1 !== password2) {
+                vm.passwordError = "Passwords don't match!";
                 document.getElementById("password1").value="";
                 document.getElementById("password2").value="";
                 return;
@@ -46,7 +54,7 @@
             };
             var newlyCreatedUser = UserService.createUser(user);
             if (null == newlyCreatedUser) {
-                alert("Username already exists. Try a different one.");
+                vm.usernameError = "Username already exists. Try a different one.";
                 document.getElementById("username").value = "";
                 document.getElementById("password1").value = "";
                 document.getElementById("password2").value = "";
@@ -86,7 +94,7 @@
                 alert("Update failed!");
             } else {
                 if (!updateSuccess) {
-                    alert("User name either exists or is null. Please choose a different one.");
+                    vm.usernameError = "User name either exists or is null. Please choose a different one.";
                     user.username = UserService.findUserById(user._id).username;
                     document.getElementById("username").value = user.username;
                 } else {

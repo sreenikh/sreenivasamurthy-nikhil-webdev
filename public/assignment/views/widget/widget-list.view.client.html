@@ -1,82 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Widget List</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
+<div>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid row">
             <div class="container-fluid">
-                <p class="navbar-text pull-left"><a href="../page/page-list.view.client.html"><span class="glyphicon glyphicon-menu-left footer-color-black"></span></a></p>
-                <a class="navbar-brand" href="#"><b>Widgets</b></a>
-                <p class="navbar-text pull-right"><a href="widget-chooser.view.client.html"><span class="glyphicon glyphicon-plus footer-color-black"></span></a></p>
+                <p class="navbar-text pull-left">
+                    <a ng-click="model.enlistPages()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-menu-left footer-color-black"></span>
+                    </a>
+                </p>
+                <a class="navbar-brand"><b>Widgets</b></a>
+                <p class="navbar-text pull-right">
+                    <a ng-click="model.navigateToAddWidget()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-plus footer-color-black"></span>
+                    </a>
+                </p>
             </div>
         </div>
     </nav>
 
     <div class="container-fluid">
         <div class="list-group profile-body">
-            <div class="relative-position widget-list-element-top-bottom-margin">
-                <div class="container-fluid zero-right-padding">
-                    <h1 class="zero-margin-top word-wrap-break-word">GIZMODO</h1>
+
+            <div ng-switch="widget.widgetType"
+                 ng-repeat="widget in model.widgets"
+                 class="relative-position widget-list-element-top-bottom-margin">
+                <div ng-switch="widget.size" ng-swich-when="HEADER"
+                     class="container-fluid zero-right-padding">
+                    <h1 ng-switch-when="1"
+                        class="zero-margin-top word-wrap-break-word">{{widget.text}}</h1>
+                    <h2 ng-switch-when="2"
+                        class="zero-margin-top word-wrap-break-word">{{widget.text}}</h2>
+                    <h3 ng-switch-when="3"
+                        class="zero-margin-top word-wrap-break-word">{{widget.text}}</h3>
+                    <h4 ng-switch-when="4"
+                        class="zero-margin-top word-wrap-break-word">{{widget.text}}</h4>
+                    <h5 ng-switch-when="5"
+                        class="zero-margin-top word-wrap-break-word">{{widget.text}}</h5>
+                    <h6 ng-switch-when="6"
+                        class="zero-margin-top word-wrap-break-word">{{widget.text}}</h6>
                 </div>
-                <div class="absolute-position list-element-menu zero-right-padding">
-                    <a href="widget-heading.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
-                </div>
-            </div>
-            <div class="relative-position widget-list-element-top-bottom-margin">
-                <div class="container-fluid zero-right-padding">
-                    <h4 class="zero-margin-top word-wrap-break-word">GIZMODO</h4>
-                </div>
-                <div class="absolute-position list-element-menu zero-right-padding">
-                    <a href="widget-heading.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
-                </div>
-            </div>
-            <div class="relative-position widget-list-element-top-bottom-margin">
-                <div class="container-fluid zero-right-padding">
-                    <img class="img-responsive" src="https://static.pexels.com/photos/186077/pexels-photo-186077-large.jpeg" alt="Sample Image"/>
-                </div>
-                <div class="absolute-position list-element-menu zero-right-padding">
-                    <a href="widget-image.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
-                </div>
-            </div>
-            <div class="relative-position widget-list-element-top-bottom-margin">
-                <div class="container-fluid zero-right-padding">
-                    <p class="zero-margin-top word-wrap-break-word">Lorem Ipsum is simply dummy text of the printing and typesetting industry. <span><a href="#">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</a></span> when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                </div>
-                <div class="absolute-position list-element-menu zero-right-padding">
-                    <a href="#"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
-                </div>
-            </div>
-            <div class="relative-position widget-list-element-top-bottom-margin">
-                <div class="container-fluid zero-right-padding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="//www.youtube.com/embed/ePbKGoIGAXY"></iframe>
+                <div ng-switch-when="YOUTUBE"
+                     class="relative-position widget-list-element-top-bottom-margin">
+                    <div class="container-fluid zero-right-padding">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item"
+                                    ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"></iframe>
+                        </div>
                     </div>
                 </div>
-                <div class="absolute-position list-element-menu zero-right-padding">
-                    <a href="widget-youtube.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+                <div ng-switch-when="IMAGE"
+                     class="relative-position widget-list-element-top-bottom-margin">
+                    <div class="container-fluid zero-right-padding">
+                        <img class="img-responsive" src="https://static.pexels.com/photos/186077/pexels-photo-186077-large.jpeg" alt="Sample Image"/>
+                    </div>
                 </div>
-            </div>
-            <div class="relative-position widget-list-element-top-bottom-margin">
-                <div class="container-fluid zero-right-padding">
-                    <p class="zero-margin-top word-wrap-break-word">Lorem Ipsum is simply dummy text of the printing and typesetting industry. <span><a href="#">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</a></span> when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                <div ng-switch-when="HTML"
+                     class="relative-position widget-list-element-top-bottom-margin">
+                    <div ng-bind-html="model.checkSafeHtml(widget.text)"
+                         class="container-fluid zero-right-padding"></div>
                 </div>
-                <div class="absolute-position list-element-menu zero-right-padding">
-                    <a href="#"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
-                </div>
-            </div>
 
+                <div class="absolute-position list-element-menu zero-right-padding">
+                    <a ng-click="model.navigateToEditWidget(widget)"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                    <a>
+                        <span class="glyphicon glyphicon-menu-hamburger color-black"></span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -85,9 +79,86 @@
             <div class="container-fluid">
                 <p class="navbar-text pull-left footer-element-padding"><a><span class="glyphicon glyphicon-play footer-color-black"></span></a></p>
                 <p class="navbar-text pull-left footer-element-padding"><a><span class="glyphicon glyphicon-eye-open footer-color-black"></span></a></p>
-                <p class="navbar-text pull-right"><a href="../views/user/profile.view.client.html"><span class="glyphicon glyphicon-user"></span></a></p>
+                <p class="navbar-text pull-right">
+                    <a ng-click="model.navigateToProfile()"
+                       class="pointer">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </a>
+                </p>
             </div>
         </div>
     </nav>
-</body>
-</html>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="container-fluid">
+    <div class="list-group profile-body">
+        <div class="relative-position widget-list-element-top-bottom-margin">
+            <div class="container-fluid zero-right-padding">
+                <h1 class="zero-margin-top word-wrap-break-word">GIZMODO</h1>
+            </div>
+            <div class="absolute-position list-element-menu zero-right-padding">
+                <a href="widget-header.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+            </div>
+        </div>
+        <div class="relative-position widget-list-element-top-bottom-margin">
+            <div class="container-fluid zero-right-padding">
+                <h4 class="zero-margin-top word-wrap-break-word">GIZMODO</h4>
+            </div>
+            <div class="absolute-position list-element-menu zero-right-padding">
+                <a href="widget-header.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+            </div>
+        </div>
+        <div class="relative-position widget-list-element-top-bottom-margin">
+            <div class="container-fluid zero-right-padding">
+                <img class="img-responsive" src="https://static.pexels.com/photos/186077/pexels-photo-186077-large.jpeg" alt="Sample Image"/>
+            </div>
+            <div class="absolute-position list-element-menu zero-right-padding">
+                <a href="widget-image.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+            </div>
+        </div>
+        <div class="relative-position widget-list-element-top-bottom-margin">
+            <div class="container-fluid zero-right-padding">
+                <p class="zero-margin-top word-wrap-break-word">Lorem Ipsum is simply dummy text of the printing and typesetting industry. <span><a href="#">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</a></span> when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+            </div>
+            <div class="absolute-position list-element-menu zero-right-padding">
+                <a href="#"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+            </div>
+        </div>
+        <div class="relative-position widget-list-element-top-bottom-margin">
+            <div class="container-fluid zero-right-padding">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="//www.youtube.com/embed/ePbKGoIGAXY"></iframe>
+                </div>
+            </div>
+            <div class="absolute-position list-element-menu zero-right-padding">
+                <a href="widget-youtube.view.client.html"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+            </div>
+        </div>
+        <div class="relative-position widget-list-element-top-bottom-margin">
+            <div class="container-fluid zero-right-padding">
+                <p class="zero-margin-top word-wrap-break-word">Lorem Ipsum is simply dummy text of the printing and typesetting industry. <span><a href="#">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</a></span> when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+            </div>
+            <div class="absolute-position list-element-menu zero-right-padding">
+                <a href="#"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger color-black"></span></a>
+            </div>
+        </div>
+
+    </div>
+</div>-->

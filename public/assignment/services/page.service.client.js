@@ -50,6 +50,7 @@
             var newPage = {
                 "_id": newId,
                 "name": page.name,
+                "title": page.title,
                 "websiteId": websiteId};
             pages.push(newPage);
             return newPage;
@@ -97,7 +98,8 @@
         
         function deletePage(pageId) {
             var pageIdFound = false;
-            for (var p in pages) {
+            var p = null;
+            for (p in pages) {
                 if (pageId === pages[p]._id) {
                     pageIdFound = true;
                     break;

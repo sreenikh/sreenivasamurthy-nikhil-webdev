@@ -91,14 +91,16 @@
         }
 
         function updateUser(userId, user) {
+            console.log(user);
             if ("" === user.username) {
                 return false;
             }
             for (var u in users) {
                 var tempUser = users[u];
                 if (user._id === userId) {
-                    var existentUser = findUserByUsername(user.username)
-                    if (null === existentUser || existentUser.username === user.username) {
+                    var existentUser = findUserByUsername(user.username);
+                    console.log(existentUser);
+                    if (null === existentUser || (existentUser._id === userId)) {
                         tempUser.username = user.username;
                         tempUser.password = user.password;
                         tempUser.firstName = user.firstName;

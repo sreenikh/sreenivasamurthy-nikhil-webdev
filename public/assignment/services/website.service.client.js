@@ -107,7 +107,8 @@
 
         function deleteWebsite(websiteId) {
             var websiteIdFound = false;
-            for (var w in websites) {
+            var w = null;
+            for (w in websites) {
                 if (websiteId === websites[w]._id) {
                     websiteIdFound = true;
                     break;
