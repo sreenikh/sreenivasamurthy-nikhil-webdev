@@ -27,8 +27,10 @@
         vm.navigateToAddWidget = navigateToAddWidget;
         vm.checkSafeHtml = checkSafeHtml;
         vm.checkSafeYouTubeUrl = checkSafeYouTubeUrl;
+        vm.checkSafeUrl = checkSafeUrl;
         vm.navigateToEditWidget = navigateToEditWidget;
         vm.navigateToProfile = navigateToProfile;
+        vm.get16by9Height = get16by9Height;
 
         function enlistPages() {
             $location.url("/user/" + userId + "/website/" + websiteId + "/page/");
@@ -49,12 +51,21 @@
             return $sce.trustAsResourceUrl(url);
         }
 
+        function checkSafeUrl(url) {
+            return $sce.trustAsResourceUrl(url);
+        }
+
         function navigateToEditWidget(widget) {
             $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widget._id);
         }
 
         function navigateToProfile() {
             $location.url("/user/" + userId);
+        }
+
+        function get16by9Height(width) {
+            console.log((parseInt(width) * 9) / 16);
+            return (parseInt(width) * 9) / 16;
         }
     }
 

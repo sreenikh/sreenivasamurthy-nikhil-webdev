@@ -43,16 +43,21 @@
                 <div ng-switch-when="YOUTUBE"
                      class="relative-position widget-list-element-top-bottom-margin">
                     <div class="container-fluid zero-right-padding">
-                        <div class="embed-responsive embed-responsive-16by9">
+                        <div class="embed-responsive-16by9">
                             <iframe class="embed-responsive-item"
-                                    ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"></iframe>
+                                    ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"
+                                    width="{{widget.width}}%"
+                                    height="{{model.get16by9Height(widget.width)}}%"></iframe>
                         </div>
                     </div>
                 </div>
                 <div ng-switch-when="IMAGE"
                      class="relative-position widget-list-element-top-bottom-margin">
                     <div class="container-fluid zero-right-padding">
-                        <img class="img-responsive" src="https://static.pexels.com/photos/186077/pexels-photo-186077-large.jpeg" alt="Sample Image"/>
+                        <img class="img-responsive"
+                             ng-src="{{model.checkSafeUrl(widget.url)}}"
+                             alt="{{widget.text}}"
+                             width="{{widget.width}}%"/>
                     </div>
                 </div>
                 <div ng-switch-when="HTML"

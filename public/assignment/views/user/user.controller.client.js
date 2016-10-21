@@ -40,6 +40,14 @@
                 vm.firstNameError = "First name cannot be empty";
                 return;
             }
+            if (undefined === password1 || undefined === password2 ||
+                    null === password1 || null === password2 ||
+                    "" === password1 || "" === password2) {
+                vm.passwordError = "Empty Password(s)";
+                document.getElementById("password1").value="";
+                document.getElementById("password2").value="";
+                return;
+            }
             if (password1 !== password2) {
                 vm.passwordError = "Passwords don't match!";
                 document.getElementById("password1").value="";
