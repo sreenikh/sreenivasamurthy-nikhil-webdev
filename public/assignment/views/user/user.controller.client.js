@@ -17,13 +17,25 @@
         vm.login = login;
 
         function login(username, password) {
-            var user = UserService.findUserByCredentials(username, password);
-            if (null === user) {
+            //var user = UserService.findUserByCredentials(username, password);
+            /*if (null === user) {
                 console.log("User not found");
                 vm.error = "Invalid username or password";
             } else {
                 $location.url("/user/" + user._id);
-            }
+            }*/
+            var promise = UserService.findUserByCredentials(username, password);
+            promise
+                .success(function (user) {
+                    if ('0' === user) {
+                        vm.error = "Invalid username or password";
+                    } else {
+                        $location.url("/user/" + user._id);
+                    }
+                })
+                .error(function (e) {
+                    console.log(e);
+                });
         }
     }
 
@@ -60,7 +72,7 @@
                 lastName: lastName,
                 password: password1
             };
-            var newlyCreatedUser = UserService.createUser(user);
+            /*var newlyCreatedUser = UserService.createUser(user);
             if (null == newlyCreatedUser) {
                 vm.usernameError = "Username already exists. Try a different one.";
                 document.getElementById("username").value = "";
@@ -68,7 +80,23 @@
                 document.getElementById("password2").value = "";
             } else {
                 $location.url("/user/" + newlyCreatedUser._id);
-            }
+            }*/
+            UserService
+                .createUser(user)
+                .success(function (newlyCreatedUser) {
+                    if ('0' == newlyCreatedUser) {
+                        vm.usernameError = "Username already exists. Try a different one.";
+                        document.getElementById("username").value = "";
+                        document.getElementById("password1").value = "";
+                        document.getElementById("password2").value = "";
+                    } else {
+                        $location.url("/user/" + newlyCreatedUser._id);
+                    }
+                })
+                .error(function (error) {
+
+                });
+
         }
     }
 
@@ -77,43 +105,87 @@
         vm.enlistWebsites = enlistWebsites;
         vm.saveProfile = saveProfile;
         vm.navigateToProfile = navigateToProfile;
+        vm.unregisterUser = unregisterUser;
 
         //var userId = parseInt($routeParams.uid);
         var userId = $routeParams.uid;
 
-        var user = UserService.findUserById(userId);
+        //var user = UserService.findUserById(userId);
 
         function init() {
-            if (null != user) {
+            /*if (null != user) {
                 vm.user = user;
-            }
+            }*/
+            UserService
+                .findUserById(userId)
+                .success(function (user) {
+                    if ('0' !== user) {
+                        vm.user = user;
+                    }
+                })
+                .error(function (error) {
+                });
         }
         init();
 
         function enlistWebsites(user) {
-            if (null != user) {
+            if (null !== user) {
                 $location.url("/user/" + user._id + "/website");
             }
         }
 
         function saveProfile(user) {
-            var updateSuccess = UserService.updateUser(userId, user);
+            if (null === username || "" === username || undefined === username) {
+                vm.usernameError = "Username cannot be empty";
+                return;
+            }
+            /*var updateSuccess = UserService.updateUser(userId, user);
             if (null == updateSuccess) {
                 alert("Update failed!");
             } else {
                 if (!updateSuccess) {
-                    vm.usernameError = "User name either exists or is null. Please choose a different one.";
+                    vm.usernameError = "User name either exists. Please choose a different one.";
                     user.username = UserService.findUserById(user._id).username;
                     document.getElementById("username").value = user.username;
                 } else {
                     alert("Update was successful!");
 
                 }
-            }
+            }*/
+            UserService
+                .updateUser(userId, user)
+                .success(function (response) {
+                    console.log(response);
+                    if ('0' === response) {
+                        alert("Update failed");
+                    } else if (true === response) {
+                        alert("Update was successful");
+                    } else if (false === response) {
+                        alert("User name exists. Please choose a different one.");
+                        init();
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function navigateToProfile() {
             $location.url("/user/" + userId);
+        }
+
+        function unregisterUser(user) {
+            UserService
+                .deleteUser(user._id)
+                .success(function (response) {
+                    $location.url("/login");
+                    if (true === response) {
+                        alert("User unregistered");
+                    } else {
+                        alert("User was not unregistered");
+                    }
+                })
+                .error(function (error) {
+                })
         }
     }
 })();

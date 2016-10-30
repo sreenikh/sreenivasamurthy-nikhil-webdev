@@ -7,10 +7,10 @@
 
     angular
         .module("WebAppMaker")
-        .factory("UserService", userService);
+        .factory("UserService", UserService);
     
-    function userService() {
-        var idSet = new Set();
+    function UserService($http) {
+        /*var idSet = new Set();
         var lastCreatedId = 1000;
 
         var users = [
@@ -22,7 +22,7 @@
 
         for (var u in users) {
             idSet.add(users[u]._id);
-        }
+        }*/
 
         var api = {
             createUser: createUser,
@@ -34,14 +34,14 @@
         };
         return api;
 
-        function generateNewId() {
+        /*function generateNewId() {
             var newId = (lastCreatedId + 1).toString();
             lastCreatedId += 1;
             return newId;
-        }
+        }*/
         
         function createUser(user) {
-            for (var u in users) {
+            /*for (var u in users) {
                 if (user.username === users[u].username) {
                     return null;
                 }
@@ -54,44 +54,52 @@
                 firstName: user.firstName,
                 lastName: user.lastName};
             users.push(newUser);
-            return newUser;
+            return newUser;*/
+            var url = '/api/user';
+            return $http.post(url, user);
         }
 
         function findUserById(userId) {
-            for (var u in users) {
+            /*for (var u in users) {
                 var user = users[u];
                 if (user._id === userId) {
                     //return user;
                     return cloneObject(user);
                 }
             }
-            return null;
+            return null;*/
+            var url = '/api/user/' + userId;
+            return $http.get(url);
         }
         
         function findUserByUsername(username) {
-            for (var u in users) {
+            /*for (var u in users) {
                 var user = users[u];
                 if (user.username === username) {
                     //return user;
                     return cloneObject(user);
                 }
             }
-            return null;
+            return null;*/
+            var url = '/api/user?username=' + username;
+            return $http.get(url);
         }
 
         function findUserByCredentials(username, password) {
-            for (var u in users) {
+            var url = '/api/user?username=' + username + '&password=' + password;
+            return $http.get(url);
+            /*for (var u in users) {
                 var user = users[u];
                 if (user.username === username && user.password === password) {
                     //return user;
                     return cloneObject(user);
                 }
             }
-            return null;
+            return null;*/
         }
 
         function updateUser(userId, user) {
-            console.log(user);
+            /*console.log(user);
             if ("" === user.username) {
                 return false;
             }
@@ -111,11 +119,13 @@
                     }
                 }
             }
-            return null;
+            return null;*/
+            var url = '/api/user/' + userId;
+            return $http.put(url, user);
         }
 
         function deleteUser(userId) {
-            var u = null;
+            /*var u = null;
             var userIdFound = False;
             for (u in users) {
                 var user = users[u];
@@ -127,11 +137,13 @@
             if (userIdFound) {
                 users.splice(u, 1);
             }
-            return userIdFound;
+            return userIdFound;*/
+            var url = '/api/user/' + userId;
+            return $http.delete(url);
         }
 
-        function cloneObject(object) {
+        /*function cloneObject(object) {
             return JSON.parse(JSON.stringify(object));
-        }
+        }*/
     }
 })();
