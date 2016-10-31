@@ -3,6 +3,8 @@
  */
 
 module.exports = function (app) {
+    "use strict";
+
     var users = [
         {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
         {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
@@ -94,7 +96,7 @@ module.exports = function (app) {
                 //var existentUser = findUserByUsername(user.username);
                 var url = '/api/user?username=' + user.username;
                 var request = require('http');
-                userExists = false;
+                var userExists = false;
                 for (var u2 in users) {
                     if (users[u2].username === user.username && users[u2]._id !== userId) {
                         userExists = true;

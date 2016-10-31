@@ -9,7 +9,7 @@
         .module("WebAppMaker")
         .factory("WebsiteService", websiteService);
 
-    function websiteService() {
+    function websiteService($http) {
         var idSet = new Set();
         var lastCreatedId = 1000;
 
@@ -45,7 +45,7 @@
             if ("" === website.name) {
                 return null;
             }
-            for (var w in websites) {
+            /*for (var w in websites) {
                 if (userId !== websites[w].developerId) {
                     continue;
                 }
@@ -60,33 +60,36 @@
                 "description": website.description,
                 "developerId": userId};
             websites.push(newWebsite);
-            return newWebsite;
+            return newWebsite;*/
+            var url = '/api/user/' + userId + "/website";
+            return $http.post(url, website);
         }
 
-        function findWebsitesForUser(uid) {
-            var result = [];
+        function findWebsitesForUser(userId) {
+            /*var result = [];
             for (var w in websites) {
                 if (uid === websites[w].developerId) {
                     result.push(cloneObject(websites[w]));
                 }
             }
-            return result;
+            return result;*/
+            var url = '/api/user/' + userId + '/website';
+            return $http.get(url);
         }
 
         function findWebsiteById(websiteId) {
-            for (var w in websites) {
+            /*for (var w in websites) {
                 if (websiteId === websites[w]._id) {
                     return cloneObject(websites[w]);
                 }
             }
-            return null;
+            return null;*/
+            var url = '/api/website/' + websiteId;
+            return $http.get(url);
         }
 
         function updateWebsite(websiteId, website) {
-            if ("" === website.name) {
-                return false;
-            }
-            for (var w in websites) {
+            /*for (var w in websites) {
                 var existingWebsite = websites[w];
                 if (website.developerId !== existingWebsite.developerId) {
                     continue;
@@ -102,11 +105,13 @@
                     }
                 }
             }
-            return false;
+            return false;*/
+            var url = '/api/website/' + websiteId;
+            return $http.put(url, website);
         }
 
         function deleteWebsite(websiteId) {
-            var websiteIdFound = false;
+            /*var websiteIdFound = false;
             var w = null;
             for (w in websites) {
                 if (websiteId === websites[w]._id) {
@@ -117,7 +122,9 @@
             if (websiteIdFound) {
                 websites.splice(w, 1);
             }
-            return websiteIdFound;
+            return websiteIdFound;*/
+            var url = '/api/website/' + websiteId;
+            return $http.delete(url);
         }
 
         function findWebsiteByName(name, uid) {
@@ -137,28 +144,3 @@
         }
     }
 })();
-
-/*var websites = [
- {_id: 100, uid: 123, name: "Facebook", description: "Most popular social networking website"},
- {_id: 101, uid: 123, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 102, uid: 123, name: "Twitter", description: "Powerful short tweets / broadcasts"},
- {_id: 103, uid: 123, name: "Facebook", description: "Most popular social networking website"},
- {_id: 104, uid: 123, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 105, uid: 123, name: "Twitter", description: "Powerful short tweets / broadcasts"},
- {_id: 106, uid: 123, name: "Facebook", description: "Most popular social networking website"},
- {_id: 107, uid: 123, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 108, uid: 123, name: "Twitter", description: "Powerful short tweets / broadcasts"},
- {_id: 109, uid: 123, name: "Facebook", description: "Most popular social networking website"},
- {_id: 110, uid: 123, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 111, uid: 123, name: "Twitter", description: "Powerful short tweets / broadcasts"},
- {_id: 109, uid: 123, name: "Facebook", description: "Most popular social networking website"},
- {_id: 110, uid: 123, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 111, uid: 123, name: "Twitter", description: "Powerful short tweets / broadcasts"},
- {_id: 112, uid: 123, name: "Facebook", description: "Most popular social networking website"},
- {_id: 113, uid: 123, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 114, uid: 123, name: "Twitter", description: "Powerful short tweets / broadcasts"},
- {_id: 201, uid: 234, name: "Facebook", description: "Most popular social networking website"},
- {_id: 202, uid: 234, name: "Wikipedia", description: "World's encyclopedia"},
- {_id: 301, uid: 345, name: "Facebook", description: "Most popular social networking website"},
- {_id: 302, uid: 345, name: "Twitter", description: "Powerful short tweets / broadcasts"}
- ];*/

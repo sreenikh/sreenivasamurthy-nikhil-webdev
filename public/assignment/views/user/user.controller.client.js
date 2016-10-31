@@ -17,15 +17,8 @@
         vm.login = login;
 
         function login(username, password) {
-            //var user = UserService.findUserByCredentials(username, password);
-            /*if (null === user) {
-                console.log("User not found");
-                vm.error = "Invalid username or password";
-            } else {
-                $location.url("/user/" + user._id);
-            }*/
-            var promise = UserService.findUserByCredentials(username, password);
-            promise
+            UserService
+                .findUserByCredentials(username, password)
                 .success(function (user) {
                     if ('0' === user) {
                         vm.error = "Invalid username or password";
@@ -72,15 +65,6 @@
                 lastName: lastName,
                 password: password1
             };
-            /*var newlyCreatedUser = UserService.createUser(user);
-            if (null == newlyCreatedUser) {
-                vm.usernameError = "Username already exists. Try a different one.";
-                document.getElementById("username").value = "";
-                document.getElementById("password1").value = "";
-                document.getElementById("password2").value = "";
-            } else {
-                $location.url("/user/" + newlyCreatedUser._id);
-            }*/
             UserService
                 .createUser(user)
                 .success(function (newlyCreatedUser) {
@@ -107,15 +91,9 @@
         vm.navigateToProfile = navigateToProfile;
         vm.unregisterUser = unregisterUser;
 
-        //var userId = parseInt($routeParams.uid);
         var userId = $routeParams.uid;
 
-        //var user = UserService.findUserById(userId);
-
         function init() {
-            /*if (null != user) {
-                vm.user = user;
-            }*/
             UserService
                 .findUserById(userId)
                 .success(function (user) {
@@ -139,19 +117,6 @@
                 vm.usernameError = "Username cannot be empty";
                 return;
             }
-            /*var updateSuccess = UserService.updateUser(userId, user);
-            if (null == updateSuccess) {
-                alert("Update failed!");
-            } else {
-                if (!updateSuccess) {
-                    vm.usernameError = "User name either exists. Please choose a different one.";
-                    user.username = UserService.findUserById(user._id).username;
-                    document.getElementById("username").value = user.username;
-                } else {
-                    alert("Update was successful!");
-
-                }
-            }*/
             UserService
                 .updateUser(userId, user)
                 .success(function (response) {

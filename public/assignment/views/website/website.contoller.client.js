@@ -18,10 +18,20 @@
         vm.navigateToAddWebsite = navigateToAddWebsite;
         vm.navigateToProfile = navigateToProfile;
 
-        //var userId = $routeParams.uid;
-        var userId = $routeParams['uid']; // better
-        var websites = WebsiteService.findWebsitesForUser(userId);
-        vm.websites = websites;
+        var userId = $routeParams['uid'];
+
+        function init() {
+            WebsiteService
+                .findWebsitesForUser(userId)
+                .success(function (websites) {
+                    if ('0' !== websites) {
+                        vm.websites = websites;
+                    }
+                })
+                .error(function (error) {
+                });
+        }
+        init();
 
         function navigateToEditWebsite(website) {
             var wid = website._id;
@@ -53,8 +63,32 @@
         vm.navigateToProfile = navigateToProfile;
 
         var userId = $routeParams['uid']; // better
-        var websites = WebsiteService.findWebsitesForUser(userId);
-        vm.websites = websites;
+
+        function listOfWebsitesInit() {
+            WebsiteService
+                .findWebsitesForUser(userId)
+                .success(function (websites) {
+                    if ('0' !== websites) {
+                        vm.websites = websites;
+                    }
+                })
+                .error(function (error) {
+                });
+        }
+        listOfWebsitesInit();
+
+        var websiteId = $routeParams['wid'];
+
+        function currentWebsiteInit() {
+            WebsiteService
+                .findWebsiteById(websiteId)
+                .success(function (website) {
+                    if ('0' !== website) {
+                        vm.currentWebsite = website;
+                    }
+                });
+        }
+        currentWebsiteInit();
 
         function navigateToEditWebsite(website) {
             var wid = website._id;
@@ -66,33 +100,44 @@
             $location.url("/user/" + userId + "/website/" + wid + "/page");
         }
 
-        var websiteId = $routeParams['wid'];
 
-        var currentWebsite = WebsiteService.findWebsiteById(websiteId);
-        vm.currentWebsite = currentWebsite;
 
         function updateWebsite(website) {
-            var updateSuccess = WebsiteService.updateWebsite(websiteId, website);
-            if (!updateSuccess) {
-                alert("User name either exists or is null. Please choose a different one.");
-                currentWebsite.name = WebsiteService.findWebsiteById(currentWebsite._id).name;
-                document.getElementById("websiteName").value = currentWebsite.name;
-            } else {
-                websites = WebsiteService.findWebsitesForUser(userId);
-                vm.websites = websites;
-                alert("Update was successful!")
+            if ("" === website.name) {
+                alert("User name is null.");
+                currentWebsiteInit();
+                document.getElementById("websiteName").value = vm.currentWebsite.name;
+                return false;
             }
+            WebsiteService
+                .updateWebsite(websiteId, website)
+                .success(function (response) {
+                    if ('0' === response) {
+                        alert("Update error occured");
+                    } else if (true === response) {
+                        currentWebsiteInit();
+                        alert("Update was successful")
+                    } else if (false === success) {
+                        alert("User name exists. Please choose a different one.");
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function deleteWebsite(website) {
-            var deletionSuccess = WebsiteService.deleteWebsite(website._id);
-            if (deletionSuccess) {
-                websites = WebsiteService.findWebsitesForUser(userId);
-                vm.websites = websites;
-                $location.url("/user/" + userId + "/website/");
-            } else {
-                alert("Deletion failed");
-            }
+            WebsiteService
+                .deleteWebsite(website._id)
+                .success(function (response) {
+                    if (true === response) {
+                        listOfWebsitesInit();
+                        $location.url("/user/" + userId + "/website/");
+                    } else {
+                        alert("Deletion failed");
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function navigateToAddWebsite() {
@@ -121,8 +166,16 @@
         vm.navigateToProfile = navigateToProfile;
 
         var userId = $routeParams['uid']; // better
-        var websites = WebsiteService.findWebsitesForUser(userId);
-        vm.websites = websites;
+        function init() {
+            WebsiteService
+                .findWebsitesForUser(userId)
+                .success(function (websites) {
+                    if ('0' !== websites) {
+                        vm.websites = websites;
+                    }
+                });
+        }
+        init();
 
         function navigateToEditWebsite(website) {
             var wid = website._id;
@@ -140,15 +193,33 @@
 
         function addWebsite(websiteName, websiteDescription) {
             var website = {name: vm.websiteName, description: vm.websiteDescription};
-            var addition = WebsiteService.createWebsite(userId, website);
+            if (null === vm.websiteName || "" === vm.websiteName || undefined === vm.websiteName) {
+                alert("Website name is null. Please enter a name");
+                return;
+            }
+            /*var addition = WebsiteService.createWebsite(userId, website);
             if (null === addition) {
-                alert("Website name either exists or is null. Please choose a different one.");
+                alert("Website name exists. Please choose a different one.");
             } else {
                 websites = WebsiteService.findWebsitesForUser(userId);
                 vm.websites = websites;
                 document.getElementById("websiteName").value = "";
                 document.getElementById("websiteDescription").value = "";
-            }
+            }*/
+            WebsiteService
+                .createWebsite(userId, website)
+                .success(function (website) {
+                    if ('0' === website) {
+                        alert("Website was not created");
+                        init();
+                        document.getElementById("websiteName").value = "";
+                        document.getElementById("websiteDescription").value = "";
+                    } else {
+                        init();
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function enlistWebsites() {
