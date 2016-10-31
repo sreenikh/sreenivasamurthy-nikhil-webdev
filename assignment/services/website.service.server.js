@@ -37,7 +37,8 @@ module.exports = function (app) {
             "_id": newId,
             "name": website.name,
             "description": website.description,
-            "developerId": userId};
+            "developerId": userId
+        };
         websites.push(newWebsite);
         res.send(cloneObject(newWebsite));
     }

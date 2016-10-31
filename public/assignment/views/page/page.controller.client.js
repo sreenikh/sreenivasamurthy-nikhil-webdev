@@ -15,8 +15,17 @@
         var vm = this;
         var userId = $routeParams.uid;
         var websiteId = $routeParams.wid;
-        var pages = PageService.findPagesByWebsiteId(websiteId);
-        vm.pages = pages;
+
+        function listOfPagesInit() {
+            PageService
+                .findPagesByWebsiteId(websiteId)
+                .success(function (pages) {
+                    vm.pages = pages;
+                })
+                .error(function (error) {
+                });
+        }
+        listOfPagesInit();
 
         vm.enlistWidgets = enlistWidgets;
         vm.enlistWebsites = enlistWebsites;
@@ -52,10 +61,17 @@
         var userId = $routeParams.uid;
         var websiteId = $routeParams.wid;
         var pageId = $routeParams.pid;
-        var pages = PageService.findPagesByWebsiteId(websiteId);
-        var currentPage = PageService.findPageById(pageId);
-        vm.pages = pages;
-        vm.currentPage = currentPage;
+
+        function currentPageInit() {
+            PageService
+                .findPageById(pageId)
+                .success(function (currentPage) {
+                    vm.currentPage = currentPage;
+                })
+                .error(function (error) {
+                });
+        }
+        currentPageInit();
 
         vm.enlistPages = enlistPages;
         vm.navigateToProfile = navigateToProfile;
@@ -67,27 +83,43 @@
         }
 
         function updatePage(page) {
-            var updateSuccess = PageService.updatePage(pageId, page);
-            if (!updateSuccess) {
-                alert("Page name either exists or is null. Please choose a different one.");
-                currentPage.name = PageService.findPageById(currentPage._id).name;
-                document.getElementById("pageName").value = currentPage.name;
-            } else {
-                pages = PageService.findPagesByWebsiteId(websiteId);
-                vm.pages = pages;
-                alert("Update was successful")
+            if ("" === page.name || null === page.name || undefined === page.name) {
+                alert("Page name is null.");
+                return;
             }
+            PageService
+                .updatePage(pageId, page)
+                .success(function (response) {
+                    if ('0' === response) {
+                        alert("Update failed")
+                        return;
+                    } else if (true === response) {
+                        alert("Update was successful");
+                        $location.url("/user/" + userId + "/website/" + websiteId + "/page/")
+                    } else if (false === response) {
+                        alert("Page name exists. Please choose a different one.");
+                        currentPageInit();
+                        document.getElementById("pageName").value = vm.currentPage.name;
+                        return;
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function deletePage(page) {
-            var deletionSuccess = PageService.deletePage(page._id);
-            if (deletionSuccess) {
-                pages = PageService.findPagesByWebsiteId(websiteId);
-                vm.pages = pages;
-                $location.url("/user/" + userId + "/website/" + websiteId + "/page");
-            } else {
-                alert("Deletion failed");
-            }
+            PageService
+                .deletePage(page._id)
+                .success(function (response) {
+                    if (true === response) {
+                        $location.url("/user/" + userId + "/website/" + websiteId + "/page");
+                    } else {
+                        alert("Deletion failed");
+                        return;
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function navigateToProfile() {
@@ -100,10 +132,11 @@
         var userId = $routeParams.uid;
         var websiteId = $routeParams.wid;
         var pageId = $routeParams.pid;
-        var pages = PageService.findPagesByWebsiteId(websiteId);
-        var currentPage = PageService.findPageById(pageId);
-        vm.pages = pages;
-        vm.currentPage = currentPage;
+
+        function currentPageInit() {
+            vm.currentPage = {name: "", title: ""};
+        }
+        currentPageInit();
 
         vm.enlistPages = enlistPages;
         vm.navigateToProfile = navigateToProfile;
@@ -114,16 +147,23 @@
         }
 
         function addPage(page) {
-            var addition = PageService.createPage(websiteId, page);
-            if (null == addition) {
-                alert("Page name either exists or is null. Please choose a different one.");
-            } else {
-                pages = PageService.findPagesByWebsiteId(websiteId);
-                vm.pages = pages;
-                document.getElementById("pageName").value = "";
-                document.getElementById("pageTitle").value = "";
-                $location.url("/user/" + userId + "/website/" + websiteId + "/page/");
+            if ("" === page.name || null === page.name || undefined === page.name) {
+                alert("Page name is null");
+                return null;
             }
+            PageService
+                .createPage(websiteId, page)
+                .success(function (page) {
+                    if ('0' !== page) {
+                        $location.url("/user/" + userId + "/website/" + websiteId + "/page/");
+                    } else {
+                        alert("Page name exists. Please choose a different one.");
+                        document.getElementById("pageName").value = "";
+                        return;
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function navigateToProfile() {

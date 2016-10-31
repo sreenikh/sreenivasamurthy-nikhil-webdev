@@ -12,13 +12,33 @@ module.exports = function (app) {
         {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
     ];
 
+    app.post('/api/user', createUser);
     app.get('/api/user', findUser);
-    app.get('/api/user/:uid', findUserById);
     app.get('/api/user?username=username', findUserByUsername);
     app.get('/api/user?username=username&password=password', findUserByCredentials);
-    app.post('/api/user', createUser);
+    app.get('/api/user/:uid', findUserById);
     app.put('/api/user/:uid', updateUser);
     app.delete('/api/user/:uid', deleteUser);
+
+    function createUser(req, res) {
+        var user = req.body;
+        for (var u in users) {
+            if (user.username === users[u].username) {
+                res.send('0');
+                return;
+            }
+        }
+        var newId = generateNewId();
+        var newUser = {
+            _id: newId,
+            username: user.username,
+            password: user.password,
+            firstName: user.firstName,
+            lastName: user.lastName};
+        users.push(newUser);
+        res.send(cloneObject(newUser));
+        return;
+    }
 
     function findUser(req, res) {
         var query = req.query;
@@ -61,30 +81,6 @@ module.exports = function (app) {
             }
         }
         res.send('0');
-    }
-
-    function createUser(req, res) {
-        var user = req.body;
-        for (var u in users) {
-            if (user.username === users[u].username) {
-                res.send('0');
-                return;
-            }
-        }
-        var newId = generateNewId();
-        var newUser = {
-            _id: newId,
-            username: user.username,
-            password: user.password,
-            firstName: user.firstName,
-            lastName: user.lastName};
-        users.push(newUser);
-        res.send(cloneObject(newUser));
-        return;
-    }
-
-    function generateNewId() {
-        return new Date().getTime().toString();
     }
 
     function updateUser(req, res) {
@@ -134,6 +130,10 @@ module.exports = function (app) {
             users.splice(u, 1);
         }
         res.send(userIdFound);
+    }
+
+    function generateNewId() {
+        return new Date().getTime().toString();
     }
 
     function cloneObject(object) {

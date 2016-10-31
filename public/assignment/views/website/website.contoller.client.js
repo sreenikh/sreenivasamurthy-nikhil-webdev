@@ -100,8 +100,6 @@
             $location.url("/user/" + userId + "/website/" + wid + "/page");
         }
 
-
-
         function updateWebsite(website) {
             if ("" === website.name) {
                 alert("User name is null.");
@@ -166,16 +164,18 @@
         vm.navigateToProfile = navigateToProfile;
 
         var userId = $routeParams['uid']; // better
-        function init() {
+        function listOfWebsitesInit() {
             WebsiteService
                 .findWebsitesForUser(userId)
                 .success(function (websites) {
                     if ('0' !== websites) {
                         vm.websites = websites;
                     }
+                })
+                .error(function (error) {
                 });
         }
-        init();
+        listOfWebsitesInit();
 
         function navigateToEditWebsite(website) {
             var wid = website._id;
@@ -197,21 +197,12 @@
                 alert("Website name is null. Please enter a name");
                 return;
             }
-            /*var addition = WebsiteService.createWebsite(userId, website);
-            if (null === addition) {
-                alert("Website name exists. Please choose a different one.");
-            } else {
-                websites = WebsiteService.findWebsitesForUser(userId);
-                vm.websites = websites;
-                document.getElementById("websiteName").value = "";
-                document.getElementById("websiteDescription").value = "";
-            }*/
             WebsiteService
                 .createWebsite(userId, website)
                 .success(function (website) {
                     if ('0' === website) {
                         alert("Website was not created");
-                        init();
+                        listOfWebsitesInit();
                         document.getElementById("websiteName").value = "";
                         document.getElementById("websiteDescription").value = "";
                     } else {
