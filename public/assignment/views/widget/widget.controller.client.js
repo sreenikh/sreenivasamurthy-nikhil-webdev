@@ -20,8 +20,16 @@
         vm.websiteId = websiteId;
         vm.pageId = pageId;
 
-        var widgets = WidgetService.findWidgetsByPageId(pageId);
-        vm.widgets = widgets;
+        function init() {
+            WidgetService
+                .findWidgetsByPageId(pageId)
+                .success(function (widgets) {
+                    vm.widgets = widgets;
+                })
+                .error(function (error) {
+                });
+        }
+        init();
 
         vm.enlistPages = enlistPages;
         vm.navigateToAddWidget = navigateToAddWidget;
@@ -80,7 +88,18 @@
         vm.pageId = pageId;
         vm.widgetId = widgetId;
 
-        vm.widget = WidgetService.findWidgetById(widgetId);
+        function init() {
+            WidgetService
+                .findWidgetById(widgetId)
+                .success(function (widget) {
+                    if ('0' !== widget) {
+                        vm.widget = widget;
+                    }
+                })
+                .error(function (error) {
+                });
+        }
+        init();
 
         vm.enlistWidgets = enlistWidgets;
         vm.navigateToProfile = navigateToProfile;
@@ -96,19 +115,31 @@
         }
 
         function updateWidget() {
-            var updateSuccess = WidgetService.updateWidget(vm.widgetId, vm.widget);
-            $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
-            if (!updateSuccess) {
-                alert("Widget was not updated");
-            }
+            WidgetService
+                .updateWidget(vm.widgetId, vm.widget)
+                .success(function (response) {
+                    if (true === response) {
+                        $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
+                    } else {
+                        alert("Widget was not updated");
+                    }
+                })
+                .error(function (error) {
+                });
         }
 
         function deleteWidget() {
-            var deletionSuccess = WidgetService.deleteWidget(vm.widgetId);
-            $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
-            if (!deletionSuccess) {
-                alert("Widget deletion was unsuccessful");
-            }
+            WidgetService
+                .deleteWidget(vm.widgetId)
+                .success(function (response) {
+                    if (true === response) {
+                        $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
+                    } else {
+                        alert("Widget deletion was unsuccessful");
+                    }
+                })
+                .error(function (error) {
+                });
         }
     }
 
@@ -138,27 +169,31 @@
         }
 
         function addHtmlWidget() {
-            var widget = {"widgetType": "HTML", "pageId": pageId, "text": "<p>Lorem ipsum muspi meroL</p>"};
+            //var widget = {"widgetType": "HTML", "pageId": pageId, "text": "<p>Lorem ipsum muspi meroL</p>"};
+            var widget = {"widgetType": "HTML", "text": "<p>Lorem ipsum muspi meroL</p>"};
             addWidget(widget);
         }
 
         function addImageWidget() {
-            var widget = {"widgetType": "IMAGE", "pageId": pageId, "width": "100%", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"};
+            //var widget = {"widgetType": "IMAGE", "pageId": pageId, "width": "100%", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"};
+            var widget = {"widgetType": "IMAGE", "width": "100%", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"};
             addWidget(widget);
         }
 
         function addYouTubeWidget() {
-            var widget = {"widgetType": "YOUTUBE", "pageId": "321", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
+            //var widget = {"widgetType": "YOUTUBE", "pageId": "321", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
+            var widget = {"widgetType": "YOUTUBE", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
             addWidget(widget);
         }
 
         function addWidget(widget) {
-            var addition = WidgetService.createWidget(pageId, widget);
-            if (null == addition) {
-                alert("Widget name either exists or is null. Please choose a different one.");
-            } else {
-                $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + addition._id);
-            }
+            WidgetService
+                .createWidget(pageId, widget)
+                .success(function (addition) {
+                    $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + addition._id);
+                })
+                .error(function (error) {
+                });
         }
 
         function navigateToProfile() {
