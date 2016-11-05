@@ -36,6 +36,9 @@
 
         function updateWidget(widgetId, widget) {
             var url = '/api/widget/' + widgetId;
+            /*if ("IMAGE" === widget.widgetType) {
+                return $http.post()
+            }*/
             return $http.put(url, widget);
         }
 

@@ -15,11 +15,24 @@ module.exports = function (app) {
         {"_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"}
     ];
 
+    var multer = require('multer'); // npm install multer --save
+    var mime = require('mime'); // npm install mime --save
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, __dirname+'/../../public/assignment/uploads')
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.fieldname + '_' + Date.now() + '.' + mime.extension(file.mimetype));
+        }
+    });
+    var upload = multer({storage: storage});
+
     app.post('/api/page/:pageId/widget', createWidget);
     app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
     app.get('/api/widget/:widgetId', findWidgetById);
     app.put('/api/widget/:widgetId', updateWidget);
     app.delete('/api/widget/:widgetId', deleteWidget);
+    app.post('/api/upload', upload.single('imageFile'), uploadImage);
 
     function createWidget(req, res) {
         var pageId = req.params.pageId;
@@ -75,6 +88,36 @@ module.exports = function (app) {
             }
         }
         res.send('0');
+    }
+
+    function uploadImage(req, res) {
+        var userId = req.body.userId;
+        var websiteId = req.body.websiteId;
+        var pageId = req.body.pageId;
+        var widgetId = req.body.widgetId;
+        var imageFile = req.file;
+
+        var originalname  = imageFile.originalname; // file name on user's computer
+        var filename      = imageFile.filename;     // new file name in upload folder
+        var path          = imageFile.path;         // full path of uploaded file
+        var destination   = imageFile.destination;  // folder where file is saved to
+        var size          = imageFile.size;
+        var mimetype      = imageFile.mimetype;
+
+        for (var wg in widgets) {
+            var existingWidget = widgets[wg];
+            if (pageId !== existingWidget.pageId) {
+                continue;
+            }
+            if (widgetId === existingWidget._id) {
+                existingWidget.url = '/assignment/uploads/' + filename;
+                break;
+            }
+        }
+
+        var url = '/assignment/index.html#/user/' + userId + '/website/' + websiteId + '/page/' + pageId + '/widget/' + widgetId;
+        res.redirect(url);
+        //res.send('0');
     }
 
     function deleteWidget(req, res) {

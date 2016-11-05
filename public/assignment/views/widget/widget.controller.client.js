@@ -72,7 +72,6 @@
         }
 
         function get16by9Height(width) {
-            console.log((parseInt(width) * 9) / 16);
             return (parseInt(width) * 9) / 16;
         }
     }
@@ -119,6 +118,7 @@
                 .updateWidget(vm.widgetId, vm.widget)
                 .success(function (response) {
                     if (true === response) {
+                        init();
                         $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
                     } else {
                         alert("Widget was not updated");
