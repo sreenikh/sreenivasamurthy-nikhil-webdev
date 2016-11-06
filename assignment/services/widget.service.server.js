@@ -6,13 +6,13 @@ module.exports = function (app) {
     "use strict";
 
     var widgets = [
-        {"_id": "123", "widgetType": "HEADER", "pageId": "321", "size": "2", "text": "GIZMODO"},
-        {"_id": "234", "widgetType": "HEADER", "pageId": "321", "size": "4", "text": "Lorem ipsum"},
-        {"_id": "345", "widgetType": "IMAGE", "pageId": "321", "width": "100", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"},
-        {"_id": "456", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum muspi meroL</p>"},
-        {"_id": "567", "widgetType": "HEADER", "pageId": "321", "size": "4", "text": "Lorem ipsum"},
-        {"_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "width": "100", "url": "https://youtu.be/AM2Ivdi9c4E", "text": "Sample Video"},
-        {"_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"}
+        {"_id": "123", "widgetType": "HEADER", "pageId": "321", "index": 0, "size": "4", "text": "Lorem ipsum"},
+        {"_id": "234", "widgetType": "HEADER", "pageId": "321", "index": 1, "size": "2", "text": "GIZMODO"},
+        {"_id": "345", "widgetType": "IMAGE", "pageId": "321", "index": 2, "width": "100", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"},
+        {"_id": "456", "widgetType": "HTML", "pageId": "321", "index": 3, "text": "<p>Lorem ipsum muspi meroL</p>"},
+        {"_id": "567", "widgetType": "HEADER", "pageId": "321", "index": 4, "size": "4", "text": "Lorem ipsum"},
+        {"_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "index": 5, "width": "100", "url": "https://youtu.be/AM2Ivdi9c4E", "text": "Sample Video"},
+        {"_id": "789", "widgetType": "HTML", "pageId": "321", "index": 6, "text": "<p>Lorem ipsum</p>"}
     ];
 
     var multer = require('multer'); // npm install multer --save
@@ -30,17 +30,54 @@ module.exports = function (app) {
     app.post('/api/page/:pageId/widget', createWidget);
     app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
     app.get('/api/widget/:widgetId', findWidgetById);
+    app.put('/api/page/:pageId/widget', function (req, res) {
+        var query = req.query;
+        if (query.initial && query.final) {
+            repositionWidget(req, res);
+        } else {
+            res.send('0');
+        }
+    });
+    app.put('/api/page/:pageId/widget?initial=index1&final=index2', repositionWidget);
     app.put('/api/widget/:widgetId', updateWidget);
     app.delete('/api/widget/:widgetId', deleteWidget);
     app.post('/api/upload', upload.single('imageFile'), uploadImage);
+
+    var sortByKey = function (key) {
+        return function (item1, item2) {
+            var operand1 = item1[key];
+            var operand2 = item2[key];
+            if (operand1 > operand2) {
+                return 1;
+            } else if (operand1 < operand2) {
+                return -1;
+            } else {
+                return 0;
+            }
+        };
+    };
 
     function createWidget(req, res) {
         var pageId = req.params.pageId;
         var widget = req.body;
         var newId = generateNewId();
+
+        function findAllWidgetsForPageByReference(pid) {
+            var result = [];
+            for (var wg in widgets) {
+                if (pageId === widgets[wg].pageId) {
+                    result.push(widgets[wg]);
+                }
+            }
+            return result;
+        }
+
+        var newIndex = findAllWidgetsForPageByReference(pageId).length;
+
         var newWidget = {
             "_id": newId,
-            "pageId": pageId
+            "pageId": pageId,
+            "index": newIndex
         };
         for (var key in widget) {
             newWidget[key] = widget[key];
@@ -57,10 +94,13 @@ module.exports = function (app) {
                 result.push(cloneObject(widgets[wg]));
             }
         }
+        var key = 'index';
+        result.sort(sortByKey(key));
         res.send(result);
     }
 
     function findWidgetById(req, res) {
+        console.log('');
         var widgetId = req.params.widgetId;
         for (var wg in widgets) {
             if (widgetId === widgets[wg]._id) {
@@ -117,7 +157,6 @@ module.exports = function (app) {
 
         var url = '/assignment/index.html#/user/' + userId + '/website/' + websiteId + '/page/' + pageId + '/widget/' + widgetId;
         res.redirect(url);
-        //res.send('0');
     }
 
     function deleteWidget(req, res) {
@@ -130,10 +169,50 @@ module.exports = function (app) {
                 break;
             }
         }
+        function findAllWidgetsForPageByReference(pid) {
+            var result = [];
+            for (var wg in widgets) {
+                if (pageId === widgets[wg].pageId) {
+                    result.push(widgets[wg]);
+                }
+            }
+            return result;
+        }
         if (widgetIdFound) {
+            var pageId = widgets[wg].pageId;
             widgets.splice(wg, 1);
+            var key = 'index';
+            var widgetsForPage = findAllWidgetsForPageByReference(pageId).sort(sortByKey(key));
+            for (var wg in widgetsForPage) {
+                widgetsForPage[wg].index = wg;
+            }
         }
         res.send(widgetIdFound);
+    }
+
+    function repositionWidget(req, res) {
+        var startIndex = req.query.initial;
+        var endIndex = req.query.final;
+        var pageId = req.params.pageId;
+
+        function findAllWidgetsForPageByReference(pid) {
+            var result = [];
+            for (var wg in widgets) {
+                if (pageId === widgets[wg].pageId) {
+                    result.push(widgets[wg]);
+                }
+            }
+            return result;
+        }
+
+        var key = 'index';
+        var widgetsForPage = findAllWidgetsForPageByReference(pageId).sort(sortByKey(key));
+        widgetsForPage.splice(endIndex, 0, widgetsForPage.splice(startIndex, 1)[0]);
+        for (var wg in widgetsForPage) {
+            widgetsForPage[wg].index = wg;
+        }
+
+        res.send(true);
     }
 
     function generateNewId() {

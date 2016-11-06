@@ -15,7 +15,8 @@
             findWidgetsByPageId: findWidgetsByPageId,
             findWidgetById: findWidgetById,
             updateWidget: updateWidget,
-            deleteWidget: deleteWidget
+            deleteWidget: deleteWidget,
+            repositionWidget: repositionWidget
         };
         return api;
 
@@ -36,15 +37,17 @@
 
         function updateWidget(widgetId, widget) {
             var url = '/api/widget/' + widgetId;
-            /*if ("IMAGE" === widget.widgetType) {
-                return $http.post()
-            }*/
             return $http.put(url, widget);
         }
 
         function deleteWidget(widgetId) {
             var url = '/api/widget/' + widgetId;
             return $http.delete(url);
+        }
+
+        function repositionWidget(pageId, startIndex, endIndex) {
+            var url = '/api/page/' + pageId + '/widget' + '?initial=' + startIndex + '&final=' + endIndex;
+            return $http.put(url);
         }
     }
 })();

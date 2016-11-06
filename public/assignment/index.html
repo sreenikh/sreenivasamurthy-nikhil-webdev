@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Assignment Home Page</title>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link href="css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>
+
     <script src="app.js"></script>
     <script src="config.js"></script>
+
+    <script src="directives/jga-directives.js"></script>
+
     <script src="services/user.service.client.js"></script>
     <script src="services/website.service.client.js"></script>
     <script src="services/page.service.client.js"></script>
     <script src="services/widget.service.client.js"></script>
+
     <script src="views/user/user.controller.client.js"></script>
     <script src="views/website/website.contoller.client.js"></script>
     <script src="views/page/page.controller.client.js"></script>
     <script src="views/widget/widget.controller.client.js"></script>
 </head>
 <body>
-    <!--<h1>Assignment Home Page</h1>-->
-    <!--<a href="login.view.client.html"><h1>Assignment Home Page (Click here)</h1></a>-->
     <div ng-view>
-
     </div>
 </body>
 </html>
