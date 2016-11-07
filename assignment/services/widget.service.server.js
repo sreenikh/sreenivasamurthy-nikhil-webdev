@@ -30,14 +30,7 @@ module.exports = function (app) {
     app.post('/api/page/:pageId/widget', createWidget);
     app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
     app.get('/api/widget/:widgetId', findWidgetById);
-    app.put('/api/page/:pageId/widget', function (req, res) {
-        var query = req.query;
-        if (query.initial && query.final) {
-            repositionWidget(req, res);
-        } else {
-            res.send('0');
-        }
-    });
+    app.put('/api/page/:pageId/widget', predecessorToRepositionWidget);
     app.put('/api/page/:pageId/widget?initial=index1&final=index2', repositionWidget);
     app.put('/api/widget/:widgetId', updateWidget);
     app.delete('/api/widget/:widgetId', deleteWidget);
@@ -188,6 +181,15 @@ module.exports = function (app) {
             }
         }
         res.send(widgetIdFound);
+    }
+
+    function predecessorToRepositionWidget(req, res) {
+        var query = req.query;
+        if (query.initial && query.final) {
+            repositionWidget(req, res);
+        } else {
+            res.send('0');
+        }
     }
 
     function repositionWidget(req, res) {
