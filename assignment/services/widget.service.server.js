@@ -17,9 +17,10 @@ module.exports = function (app) {
 
     var multer = require('multer'); // npm install multer --save
     var mime = require('mime'); // npm install mime --save
-    var storage = multer.diskStorage({
+        var storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, __dirname+'/../../public/assignment/uploads')
+            //cb(null, __dirname+'/../../public/assignment/uploads')
+            cb(null, '/assignment/uploads');
         },
         filename: function (req, file, cb) {
             cb(null, file.fieldname + '_' + Date.now() + '.' + mime.extension(file.mimetype));

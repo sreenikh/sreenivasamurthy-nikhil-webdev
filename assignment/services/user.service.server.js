@@ -2,15 +2,8 @@
  * Created by Nikhil S on 28-Oct-16.
  */
 
-module.exports = function (app) {
+module.exports = function (app, model) {
     "use strict";
-
-    var users = [
-        {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
-        {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
-        {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia"  },
-        {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
-    ];
 
     app.post('/api/user', createUser);
     app.get('/api/user', findUser);
@@ -22,22 +15,31 @@ module.exports = function (app) {
 
     function createUser(req, res) {
         var user = req.body;
-        for (var u in users) {
-            if (user.username === users[u].username) {
-                res.send('0');
-                return;
-            }
-        }
-        var newId = generateNewId();
-        var newUser = {
-            _id: newId,
-            username: user.username,
-            password: user.password,
-            firstName: user.firstName,
-            lastName: user.lastName};
-        users.push(newUser);
-        res.send(cloneObject(newUser));
-        return;
+        model
+            .userModel
+            .findUserByUsername(user.username)
+            .then(
+                function (listOfExistingUsers) {
+                    if (0 !== listOfExistingUsers.length) {
+                        res.send('0');
+                    } else {
+                        model
+                            .userModel
+                            .createUser(user)
+                            .then(
+                                function (newUser) {
+                                    res.send(newUser)
+                                },
+                                function (error) {
+                                    res.sendStatus(400).send(error);
+                                }
+                            );
+                    }
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function findUser(req, res) {
@@ -51,85 +53,136 @@ module.exports = function (app) {
 
     function findUserByUsername(req, res) {
         var username = req.query.username;
-        for (var u in users) {
-            if (users[u].username === username) {
-                res.send(cloneObject(users[u]));
-                return;
-            }
-        }
-        res.send('0');
+        model
+            .userModel
+            .findUserByUsername(username)
+            .then(
+                function (listOfExistingUsers) {
+                    if (0 === listOfExistingUsers.length) {
+                        res.send('0');
+                    } else {
+                        var user = listOfExistingUsers[0];
+                        res.send(user);
+                    }
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            )
     }
 
     function findUserByCredentials(req, res) {
         var username = req.query.username;
         var password = req.query.password;
-        for (var u in users) {
-            if (users[u].username === username && users[u].password === password) {
-                res.send(cloneObject(users[u]));
-                return;
-            }
-        }
-        res.send('0');
+        model
+            .userModel
+            .findUserByUsername(username)
+            .then(
+                function (listOfExistingUsers) {
+                    if (0 === listOfExistingUsers.length) {
+                        res.send('0');
+                    } else {
+                        var user = listOfExistingUsers[0];
+                        if (user.username === username && user.password === password) {
+                            res.send(user);
+                        } else {
+                            res.send('0');
+                        }
+                    }
+                }
+            );
     }
 
     function findUserById(req, res) {
         var uid = req.params.uid;
-        for (var u in users) {
-            if (users[u]._id === uid) {
-                res.send(cloneObject(users[u]));
-                return;
-            }
-        }
-        res.send('0');
+        model
+            .userModel
+            .findUserById(uid)
+            .then(
+                function (user) {
+                    if (user) {
+                        res.send(user);
+                    } else {
+                        res.send('0');
+                    }
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function updateUser(req, res) {
         var userId = req.params.uid;
         var user = req.body;
-        for (var u in users) {
-            var tempUser = users[u];
-            if (user._id === userId) {
-                //var existentUser = findUserByUsername(user.username);
-                var url = '/api/user?username=' + user.username;
-                var request = require('http');
-                var userExists = false;
-                for (var u2 in users) {
-                    if (users[u2].username === user.username && users[u2]._id !== userId) {
-                        userExists = true;
-                        break;
+        model
+            .userModel
+            .findUserById(userId)
+            .then(
+                function (existingUser) {
+                    if (existingUser) {
+                        if (existingUser.username === user.username) {
+                            model
+                                .userModel
+                                .updateUser(userId, user)
+                                .then(
+                                    function (response) {
+                                        res.send(true);
+                                    },
+                                    function (error) {
+                                        res.sendStatus(400).send(error);
+                                    }
+                                );
+                        } else {
+                            model
+                                .userModel
+                                .findUserByUsername(user.username)
+                                .then(
+                                    function (listOfExistingUsers) {
+                                        if (0 === listOfExistingUsers.length) {
+                                            model
+                                                .userModel
+                                                .updateUser(userId, user)
+                                                .then(
+                                                    function (response) {
+                                                        res.send(true);
+                                                    },
+                                                    function (error) {
+                                                        res.sendStatus(400).send(error);
+                                                    }
+                                                );
+                                        } else {
+                                            res.send(false);
+                                        }
+                                    },
+                                    function (error) {
+                                        res.sendStatus(400).send(error);
+                                    }
+                                );
+                        }
+                    } else {
+                        res.send('0');
                     }
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
                 }
-                if (userExists) {
-                    res.send(false);
-                    return;
-                } else {
-                    tempUser.username = user.username;
-                    tempUser.password = user.password;
-                    tempUser.firstName = user.firstName;
-                    tempUser.lastName = user.lastName;
-                    res.send(true);
-                    return;
-                }
-            }
-        }
-        res.send('0');
+            );
     }
 
     function deleteUser(req, res) {
         var userId = req.params.uid;
-        var u = null;
-        var userIdFound = false;
-        for (u in users) {
-            var user = users[u];
-            if (userId === user._id) {
-                userIdFound = true;
-                break;
-            }
-        }
-        if (userIdFound) {
-            users.splice(u, 1);
-        }
-        res.send(userIdFound);
+        model
+            .userModel
+            .deleteUser(userId)
+            .then(
+                function (response) {
+                    res.send(true);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function generateNewId() {
@@ -139,4 +192,4 @@ module.exports = function (app) {
     function cloneObject(object) {
         return JSON.parse(JSON.stringify(object));
     }
-}
+};
