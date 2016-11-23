@@ -5,7 +5,9 @@
 module.exports = function () {
     var mongoose = require('mongoose');
     var WebsiteSchema = mongoose.Schema({
-        name: String
-    });
+        name: String,
+        developerId: String,
+        description: String
+    }, {collection: "website"});
     return WebsiteSchema;
 };

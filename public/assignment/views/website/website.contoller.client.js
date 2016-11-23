@@ -115,7 +115,8 @@
                     } else if (true === response) {
                         currentWebsiteInit();
                         alert("Update was successful")
-                    } else if (false === success) {
+                        $location.url("/user/" + userId + "/website/");
+                    } else if (false === response) {
                         alert("User name exists. Please choose a different one.");
                     }
                 })
@@ -201,12 +202,13 @@
                 .createWebsite(userId, website)
                 .success(function (website) {
                     if ('0' === website) {
-                        alert("Website was not created");
+                        alert("Website was not created as the name already exists");
                         listOfWebsitesInit();
                         document.getElementById("websiteName").value = "";
                         document.getElementById("websiteDescription").value = "";
                     } else {
-                        init();
+                        listOfWebsitesInit();
+                        $location.url("/user/" + userId + "/website");
                     }
                 })
                 .error(function (error) {
