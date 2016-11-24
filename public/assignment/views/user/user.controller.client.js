@@ -36,7 +36,7 @@
         var vm = this;
         vm.register = register;
 
-        function register(username, firstName, lastName, password1, password2) {
+        function register(username, firstName, lastName, password1, password2, email, phone) {
             if (null === username || "" === username || undefined === username) {
                 vm.usernameError = "Username cannot be empty";
                 return;
@@ -63,7 +63,9 @@
                 username: username,
                 firstName: firstName,
                 lastName: lastName,
-                password: password1
+                password: password1,
+                email: email,
+                phone: phone
             };
             UserService
                 .createUser(user)

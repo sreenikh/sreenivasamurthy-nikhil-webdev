@@ -24,6 +24,16 @@
                    ng-model="model.lastName"
                    class="form-control"
                    placeholder="Last Name"/>
+            <input id="email"
+                   type="text"
+                   ng-model="model.email"
+                   class="form-control"
+                   placeholder="E-Mail"/>
+            <input id="phone"
+                   type="text"
+                   ng-model="model.phone"
+                   class="form-control"
+                   placeholder="Phone"/>
             <p ng-show="model.passwordError"
                class="alert alert-danger zero-margin-bottom zero-top-padding zero-bottom-padding"
                role="alert">{{model.passwordError}}</p>
@@ -38,7 +48,7 @@
                    class="form-control"
                    placeholder="Verify Password"/>
         </form>
-        <a ng-click="model.register(model.username, model.firstName, model.lastName, model.password1, model.password2)"
+        <a ng-click="model.register(model.username, model.firstName, model.lastName, model.password1, model.password2, model.email, model.phone)"
            class="btn btn-primary btn-block">Register</a>
         <a class="btn btn-danger btn-block"
            href="#/login">Cancel</a>
