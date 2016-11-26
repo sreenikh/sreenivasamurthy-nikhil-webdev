@@ -32,7 +32,7 @@ module.exports = function (app, model) {
                                 function (error) {
                                     res.sendStatus(400).send(error);
                                 }
-                            )
+                            );
                     }
                 },
                 function (error) {
@@ -68,7 +68,7 @@ module.exports = function (app, model) {
                 function (error) {
                     res.sendStatus(400).send(error);
                 }
-            )
+            );
     }
 
     function updateWebsite(req, res) {
@@ -125,12 +125,12 @@ module.exports = function (app, model) {
                 function (error) {
                     res.sendStatus(400).send(error);
                 }
-            )
+            );
     }
 
     function deleteWebsite(req, res) {
         var websiteId = req.params.websiteId;
-        /*model
+        model
             .websiteModel
             .deleteWebsite(websiteId)
             .then(
@@ -140,41 +140,6 @@ module.exports = function (app, model) {
                 function (error) {
                     res.sendStatus(400).send(error);
                 }
-            )*/
-
-        /*model
-            .websiteModel
-            .findWebsiteById(websiteId)
-            .then(
-                function (website) {
-                    var userId = website._user;
-                    model
-                        .websiteModel
-                        .deleteWebsite(userId, website._id)
-                        .then(
-                            function (response) {
-                                res.send(true);
-                            },
-                            function (error) {
-                                res.sendStatus(400).send(error);
-                            }
-                        );
-                },
-                function (error) {
-
-                }
-            );*/
-
-            model
-                .websiteModel
-                .deleteWebsite(websiteId)
-                .then(
-                    function (response) {
-                        res.send(true);
-                    },
-                    function (error) {
-                        res.sendStatus(400).send(error);
-                    }
-                );
+            );
     }
 }

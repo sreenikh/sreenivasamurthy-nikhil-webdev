@@ -13,6 +13,7 @@ module.exports = function () {
         createWebsite: createWebsite,
         findAllWebsitesForUser: findAllWebsitesForUser,
         findWebsiteById: findWebsiteById,
+        findPageObjectIdsForWebsite: findPageObjectIdsForWebsite,
         findWebsitesByUserIdAndName: findWebsitesByUserIdAndName,
         updateWebsite: updateWebsite,
         deleteWebsite: deleteWebsite,
@@ -25,15 +26,16 @@ module.exports = function () {
             .create(website)
             .then(
                 function (newWebsite) {
-                    model
+                    return model
                         .userModel
                         .findUserById(userId)
                         .then(
                             function (user) {
                                 user.websites.push(newWebsite);
                                 newWebsite._user = user._id;
+                                user.save();
                                 newWebsite.save();
-                                return user.save();
+                                return newWebsite;
                             },
                             function (error) {
                             }
@@ -45,8 +47,6 @@ module.exports = function () {
     }
 
     function findAllWebsitesForUser(userId) {
-        //model.userModel.findWebsitesForUser(userId).then(function (websites) {console.log(websites);})
-        //return WebsiteModel.find({developerId: userId});
         return model
             .userModel
             .findWebsiteObjectIdsForUser(userId)
@@ -54,28 +54,18 @@ module.exports = function () {
                 function (listOfWebsiteObjectIds) {
                     return WebsiteModel
                         .find({_id: {$in: listOfWebsiteObjectIds}});
-                    /*listOfWebsiteObjectIds.forEach(function (websiteObjectId) {
-                        var result = [];
-                        var count = 0;
-                        WebsiteModel
-                            .findById(websiteObjectId )
-                            .then(
-                                function (website) {
-                                    console.log(__filename);
-                                    console.log(website);
-                                    result.push(website);
-                                    count = count + 1;
-                                    if (listOfWebsiteObjectIds.length == count) {
-                                        return result;
-                                    }
-                                },
-                                function (error) {
-                                }
-                            );
-                        return result;
-                    });*/
                 },
                 function (error) {
+                }
+            );
+    }
+
+    function findPageObjectIdsForWebsite(websiteId) {
+        return WebsiteModel
+            .findById(websiteId)
+            .then(
+                function (website) {
+                    return website.pages;
                 }
             );
     }
@@ -85,7 +75,7 @@ module.exports = function () {
     }
 
     function findWebsitesByUserIdAndName(userId, name) {
-        return WebsiteModel.find({developerId: userId, name: name});
+        return WebsiteModel.find({_user: userId, name: name});
     }
     
     function updateWebsite(websiteId, website) {
@@ -97,29 +87,6 @@ module.exports = function () {
             }}
         );
     }
-    
-    /*function deleteWebsite(userId, websiteId) {
-        return WebsiteModel
-            .remove({_id: websiteId.valueOf()})
-            .then(
-                function (response) {
-                    model
-                        .userModel
-                        .findUserById(userId.valueOf())
-                        .then(
-                            function (user) {
-                                const index = user.websites.indexOf(websiteId);
-                                user.websites.splice(index, 1);
-                                return user.save();
-                            },
-                            function (error) {
-                            }
-                        );
-                },
-                function () {
-
-                });
-    }*/
 
     function deleteWebsite(websiteId) {
         return model
@@ -149,9 +116,80 @@ module.exports = function () {
 
                             });
                 }
-            )
-
+            );
     }
+
+    /*function deleteWebsite(websiteId) {
+        return model
+            .websiteModel
+            .findWebsiteById(websiteId)
+            .then(
+                function (website) {
+                    var userId = website._user;
+                    var count = 0;
+                    console.log(__filename);
+                    console.log(website.name);
+                    console.log(website.pages);
+                    if (0 === website.pages.length) {
+                        return WebsiteModel
+                            .remove({_id: website._id.valueOf()})
+                            .then(
+                                function (response) {
+                                    return model
+                                        .userModel
+                                        .findUserById(userId.valueOf())
+                                        .then(
+                                            function (user) {
+                                                console.log(__filename);
+                                                console.log(user);
+                                                const index = user.websites.indexOf(website._id);
+                                                user.websites.splice(index, 1);
+                                                return user.save();
+                                            },
+                                            function (error) {
+                                            }
+                                        );
+                                },
+                                function () {
+
+                                });
+                    } else {
+                        website.pages.forEach(function (pageId) {
+                            model
+                                .pageModel
+                                .deletePage(pageId)
+                                .then(
+                                    function (response) {
+                                        count++;
+                                        if (websites.pages.length === count) {
+                                            return WebsiteModel
+                                                .remove({_id: website._id.valueOf()})
+                                                .then(
+                                                    function (response) {
+                                                        return model
+                                                            .userModel
+                                                            .findUserById(userId.valueOf())
+                                                            .then(
+                                                                function (user) {
+                                                                    const index = user.websites.indexOf(website._id);
+                                                                    user.websites.splice(index, 1);
+                                                                    return user.save();
+                                                                },
+                                                                function (error) {
+                                                                }
+                                                            );
+                                                    },
+                                                    function () {
+
+                                                    });
+                                        }
+                                    }
+                                )
+                        });
+                    }
+                }
+            );
+    }*/
 
     function setModel(_model) {
         model = _model;

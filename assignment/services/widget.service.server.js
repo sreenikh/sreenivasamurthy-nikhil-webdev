@@ -2,7 +2,7 @@
  * Created by Nikhil S on 05-Nov-16.
  */
 
-module.exports = function (app) {
+module.exports = function (app, model) {
     "use strict";
 
     var widgets = [

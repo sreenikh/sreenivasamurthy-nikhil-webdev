@@ -74,23 +74,6 @@ module.exports = function (app, model) {
     function findUserByCredentials(req, res) {
         var username = req.query.username;
         var password = req.query.password;
-        /*model
-            .userModel
-            .findUserByUsername(username)
-            .then(
-                function (listOfExistingUsers) {
-                    if (0 === listOfExistingUsers.length) {
-                        res.send('0');
-                    } else {
-                        var user = listOfExistingUsers[0];
-                        if (user.username === username && user.password === password) {
-                            res.send(user);
-                        } else {
-                            res.send('0');
-                        }
-                    }
-                }
-            );*/
         model
             .userModel
             .findUserByCredentials(username, password)

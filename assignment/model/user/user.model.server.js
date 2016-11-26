@@ -51,7 +51,7 @@ module.exports = function () {
     function updateUser(userId, user) {
         return UserModel.update({
             _id: userId
-            }, {
+        }, {
             $set: {
                 username: user.username,
                 password: user.password,
@@ -65,6 +65,37 @@ module.exports = function () {
     function deleteUser(userId) {
         return UserModel.remove({_id: userId});
     }
+
+    /*function deleteUser(userId) {
+        //return UserModel.remove({_id: userId});
+        return UserModel
+            .findById(userId)
+            .then(
+                function (user) {
+                    var count = 0;
+                    user.websites.forEach(function (websiteId) {
+                        console.log("COUNT " + count);
+                        model
+                            .websiteModel
+                            .deleteWebsite(websiteId)
+                            .then(function (response) {
+                                count++;
+                                console.log(__filename);
+                                console.log(count);
+                                console.log(websiteId);
+                                /!*if (user.websites.length === count) {
+                                    return UserModel
+                                        .remove({_id: userId})
+                                }*!/
+                            });
+                    });
+                    while (0 !== count) {
+                        if (0 === count) {
+                            return UserModel.remove({_id: userId});
+                        }
+                    }
+                });
+    }*/
 
     function setModel(_model) {
         model = _model;
