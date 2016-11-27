@@ -144,7 +144,6 @@ module.exports = function (app, model) {
                         .findPagesByWebsiteIdAndName(existingPage._website, page.name)
                         .then(
                             function (listOfPages) {
-                                console.log(listOfPages);
                                 if (0 === listOfPages.length) {
                                     model
                                         .pageModel

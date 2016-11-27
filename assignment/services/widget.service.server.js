@@ -5,7 +5,7 @@
 module.exports = function (app, model) {
     "use strict";
 
-    var widgets = [
+    /*var widgets = [
         {"_id": "123", "widgetType": "HEADER", "pageId": "321", "index": 0, "size": "4", "text": "Lorem ipsum"},
         {"_id": "234", "widgetType": "HEADER", "pageId": "321", "index": 1, "size": "2", "text": "GIZMODO"},
         {"_id": "345", "widgetType": "IMAGE", "pageId": "321", "index": 2, "width": "100", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"},
@@ -13,7 +13,7 @@ module.exports = function (app, model) {
         {"_id": "567", "widgetType": "HEADER", "pageId": "321", "index": 4, "size": "4", "text": "Lorem ipsum"},
         {"_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "index": 5, "width": "100", "url": "https://youtu.be/AM2Ivdi9c4E", "text": "Sample Video"},
         {"_id": "789", "widgetType": "HTML", "pageId": "321", "index": 6, "text": "<p>Lorem ipsum</p>"}
-    ];
+    ];*/
 
     var multer = require('multer'); // npm install multer --save
     var mime = require('mime'); // npm install mime --save
@@ -37,7 +37,7 @@ module.exports = function (app, model) {
     app.delete('/api/widget/:widgetId', deleteWidget);
     app.post('/api/upload', upload.single('imageFile'), uploadImage);
 
-    var sortByKey = function (key) {
+    /*var sortByKey = function (key) {
         return function (item1, item2) {
             var operand1 = item1[key];
             var operand2 = item2[key];
@@ -49,12 +49,12 @@ module.exports = function (app, model) {
                 return 0;
             }
         };
-    };
+    };*/
 
     function createWidget(req, res) {
         var pageId = req.params.pageId;
         var widget = req.body;
-        var newId = generateNewId();
+        /*var newId = generateNewId();
 
         function findAllWidgetsForPageByReference(pid) {
             var result = [];
@@ -77,12 +77,23 @@ module.exports = function (app, model) {
             newWidget[key] = widget[key];
         }
         widgets.push(newWidget);
-        res.send(cloneObject(newWidget));
+        res.send(cloneObject(newWidget));*/
+        model
+            .widgetModel
+            .createWidget(pageId, widget)
+            .then(
+                function (newWidget) {
+                    res.json(newWidget);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function findAllWidgetsForPage(req, res) {
         var pageId = req.params.pageId;
-        var result = [];
+        /*var result = [];
         for (var wg in widgets) {
             if (pageId === widgets[wg].pageId) {
                 result.push(cloneObject(widgets[wg]));
@@ -90,25 +101,47 @@ module.exports = function (app, model) {
         }
         var key = 'index';
         result.sort(sortByKey(key));
-        res.send(result);
+        res.send(result);*/
+        model
+            .widgetModel
+            .findAllWidgetsForPage(pageId)
+            .then(
+                function (listOfWidgets) {
+                    res.json(listOfWidgets);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function findWidgetById(req, res) {
-        console.log('');
         var widgetId = req.params.widgetId;
-        for (var wg in widgets) {
+        /*for (var wg in widgets) {
             if (widgetId === widgets[wg]._id) {
                 res.send(cloneObject(widgets[wg]));
                 return;
             }
         }
-        res.send('0');
+        res.send('0');*/
+        model
+            .widgetModel
+            .findWidgetById(widgetId)
+            .then(
+                function (widget) {
+                    res.json(widget);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            )
+
     }
 
     function updateWidget(req, res) {
         var widgetId = req.params.widgetId;
         var widget = req.body;
-        for (var wg in widgets) {
+        /*for (var wg in widgets) {
             var existingWidget = widgets[wg];
             if (widget.pageId !== existingWidget.pageId) {
                 continue;
@@ -121,7 +154,18 @@ module.exports = function (app, model) {
                 return;
             }
         }
-        res.send('0');
+        res.send('0');*/
+        model
+            .widgetModel
+            .updateWidget(widgetId, widget)
+            .then(
+                function (response) {
+                    res.send(true);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function uploadImage(req, res) {
@@ -138,7 +182,7 @@ module.exports = function (app, model) {
         var size          = imageFile.size;
         var mimetype      = imageFile.mimetype;
 
-        for (var wg in widgets) {
+        /*for (var wg in widgets) {
             var existingWidget = widgets[wg];
             if (pageId !== existingWidget.pageId) {
                 continue;
@@ -147,15 +191,28 @@ module.exports = function (app, model) {
                 existingWidget.url = '/assignment/uploads/' + filename;
                 break;
             }
-        }
+        }*/
 
-        var url = '/assignment/index.html#/user/' + userId + '/website/' + websiteId + '/page/' + pageId + '/widget/' + widgetId;
-        res.redirect(url);
+        /*var url = '/assignment/index.html#/user/' + userId + '/website/' + websiteId + '/page/' + pageId + '/widget/' + widgetId;
+         res.redirect(url);*/
+
+        model
+            .widgetModel
+            .updateWidget(widgetId, {url: '/assignment/uploads/' + filename})
+            .then(
+                function (response) {
+                    var url = '/assignment/index.html#/user/' + userId + '/website/' + websiteId + '/page/' + pageId + '/widget/' + widgetId;
+                    res.redirect(url);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function deleteWidget(req, res) {
         var widgetId = req.params.widgetId;
-        var widgetIdFound = false;
+        /*var widgetIdFound = false;
         var wg = null;
         for (wg in widgets) {
             if (widgetId === widgets[wg]._id) {
@@ -181,7 +238,18 @@ module.exports = function (app, model) {
                 widgetsForPage[wg].index = wg;
             }
         }
-        res.send(widgetIdFound);
+        res.send(widgetIdFound);*/
+        model
+            .widgetModel
+            .deleteWidget(widgetId)
+            .then(
+                function (response) {
+                    res.send(true);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
     function predecessorToRepositionWidget(req, res) {
@@ -198,7 +266,7 @@ module.exports = function (app, model) {
         var endIndex = req.query.final;
         var pageId = req.params.pageId;
 
-        function findAllWidgetsForPageByReference(pid) {
+        /*function findAllWidgetsForPageByReference(pid) {
             var result = [];
             for (var wg in widgets) {
                 if (pageId === widgets[wg].pageId) {
@@ -215,14 +283,26 @@ module.exports = function (app, model) {
             widgetsForPage[wg].index = wg;
         }
 
-        res.send(true);
+        res.send(true);*/
+
+        model
+            .widgetModel
+            .reorderWidget(pageId, startIndex, endIndex)
+            .then(
+                function (response) {
+                    res.send(true);
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
     }
 
-    function generateNewId() {
+    /*function generateNewId() {
         return new Date().getTime().toString();
     }
 
     function cloneObject(object) {
         return JSON.parse(JSON.stringify(object));
-    }
+    }*/
 }

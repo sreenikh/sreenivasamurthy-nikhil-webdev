@@ -28,7 +28,7 @@
 
     <div class="container-fluid">
         <div class="form-class profile-body">
-            <div ng-include="'views/widget/widget-'+model.widget.widgetType.toLowerCase()+'.view.client.html'">
+            <div ng-include="'views/widget/widget-'+model.widget.type.toLowerCase()+'.view.client.html'">
             </div>
             <a ng-click="model.deleteWidget()"
                class="btn btn-danger btn-block">Delete</a>

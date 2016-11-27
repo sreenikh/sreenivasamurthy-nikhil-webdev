@@ -12,6 +12,7 @@ module.exports = function () {
     var api = {
         createPage: createPage,
         findAllPagesForWebsite: findAllPagesForWebsite,
+        findWidgetObjectIdsForPage: findWidgetObjectIdsForPage,
         findPageById: findPageById,
         findPagesByWebsiteIdAndName: findPagesByWebsiteIdAndName,
         updatePage: updatePage,
@@ -59,7 +60,7 @@ module.exports = function () {
             );
     }
 
-    /*function findWidgetObjectIdsForWebsite(pageId) {
+    function findWidgetObjectIdsForPage(pageId) {
         return PageModel
             .findById(pageId)
             .then(
@@ -67,7 +68,7 @@ module.exports = function () {
                     return page.widgets;
                 }
             );
-    }*/
+    }
 
     function findPageById(pageId) {
         return PageModel.findById(pageId);

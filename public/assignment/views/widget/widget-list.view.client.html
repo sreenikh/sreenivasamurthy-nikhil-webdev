@@ -22,7 +22,7 @@
     <div class="container-fluid">
         <div sortable-widgets
              class="list-group profile-body">
-            <div ng-switch="widget.widgetType"
+            <div ng-switch="widget.type"
                  ng-repeat="widget in model.widgets"
                  class="relative-position widget-list-element-top-bottom-margin">
                 <div ng-switch="widget.size" ng-swich-when="HEADER"

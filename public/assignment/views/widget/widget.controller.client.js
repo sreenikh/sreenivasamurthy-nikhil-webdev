@@ -114,6 +114,7 @@
         }
 
         function updateWidget() {
+            delete vm.widget._id;
             WidgetService
                 .updateWidget(vm.widgetId, vm.widget)
                 .success(function (response) {
@@ -164,25 +165,26 @@
         }
 
         function addHeaderWidget() {
-            var widget = {"widgetType": "HEADER", "pageId": pageId, "size": 2, "text": ""};
+            //var widget = {"type": "HEADER", "pageId": pageId, "size": 2, "text": ""};
+            var widget = {"type": "HEADER", "size": 2, "text": ""};
             addWidget(widget);
         }
 
         function addHtmlWidget() {
             //var widget = {"widgetType": "HTML", "pageId": pageId, "text": "<p>Lorem ipsum muspi meroL</p>"};
-            var widget = {"widgetType": "HTML", "text": "<p>Lorem ipsum muspi meroL</p>"};
+            var widget = {"type": "HTML", "text": "<p>Lorem ipsum muspi meroL</p>"};
             addWidget(widget);
         }
 
         function addImageWidget() {
             //var widget = {"widgetType": "IMAGE", "pageId": pageId, "width": "100%", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"};
-            var widget = {"widgetType": "IMAGE", "width": "100%", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"};
+            var widget = {"type": "IMAGE", "width": "100%", "url": "http://lorempixel.com/400/200/", "text": "Sample Image"};
             addWidget(widget);
         }
 
         function addYouTubeWidget() {
             //var widget = {"widgetType": "YOUTUBE", "pageId": "321", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
-            var widget = {"widgetType": "YOUTUBE", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
+            var widget = {"type": "YOUTUBE", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
             addWidget(widget);
         }
 
