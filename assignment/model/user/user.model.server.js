@@ -62,40 +62,50 @@ module.exports = function () {
             }});
     }
 
-    function deleteUser(userId) {
-        return UserModel.remove({_id: userId});
-    }
-
     /*function deleteUser(userId) {
+     return UserModel.remove({_id: userId});
+     }*/
+
+    function deleteUser(userId) {
         //return UserModel.remove({_id: userId});
         return UserModel
             .findById(userId)
             .then(
                 function (user) {
                     var count = 0;
-                    user.websites.forEach(function (websiteId) {
-                        console.log("COUNT " + count);
-                        model
-                            .websiteModel
-                            .deleteWebsite(websiteId)
-                            .then(function (response) {
-                                count++;
-                                console.log(__filename);
-                                console.log(count);
-                                console.log(websiteId);
-                                /!*if (user.websites.length === count) {
-                                    return UserModel
-                                        .remove({_id: userId})
-                                }*!/
-                            });
+                    var listOfWebsiteIds = [];
+
+                    user.websites.forEach(function (website) {
+                        listOfWebsiteIds.push(website.valueOf());
                     });
-                    while (0 !== count) {
-                        if (0 === count) {
+
+                    count = 0;
+
+                    return recursiveDeletionOfWebsites(count, listOfWebsiteIds);
+
+                    function recursiveDeletionOfWebsites(currentCount, inputListOfWebsiteIds) {
+                        if (currentCount === inputListOfWebsiteIds.length) {
                             return UserModel.remove({_id: userId});
+                        } else {
+                            return model
+                                .websiteModel
+                                .deleteWebsite(inputListOfWebsiteIds[currentCount])
+                                .then(
+                                    function (response) {
+                                        return recursiveDeletionOfWebsites(currentCount + 1, inputListOfWebsiteIds);
+                                    },
+                                    function (error) {
+                                        return error;
+                                    }
+                                );
                         }
+
                     }
+                },
+                function (error) {
+
                 });
-    }*/
+    }
 
     function setModel(_model) {
         model = _model;

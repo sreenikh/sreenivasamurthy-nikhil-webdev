@@ -67,16 +67,16 @@ module.exports = function () {
 
                     return recursiveFormationOfList(count, listOfWidgetIds, listOfWidgets);
 
-                    function recursiveFormationOfList(currentCount, inputListOfWidgetsIds, widgetAccumulator) {
-                        if (currentCount === inputListOfWidgetsIds.length) {
+                    function recursiveFormationOfList(currentCount, inputListOfWidgetIds, widgetAccumulator) {
+                        if (currentCount === inputListOfWidgetIds.length) {
                             return widgetAccumulator;
                         } else {
                             return WidgetModel
-                                .findById(inputListOfWidgetsIds[currentCount])
+                                .findById(inputListOfWidgetIds[currentCount])
                                 .then(
                                     function (widget) {
                                         widgetAccumulator.push(widget);
-                                        return recursiveFormationOfList(currentCount + 1, inputListOfWidgetsIds, widgetAccumulator);
+                                        return recursiveFormationOfList(currentCount + 1, inputListOfWidgetIds, widgetAccumulator);
                                     },
                                     function (error) {
                                         return error;

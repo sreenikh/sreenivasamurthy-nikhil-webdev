@@ -88,7 +88,7 @@ module.exports = function () {
         );
     }
 
-    function deleteWebsite(websiteId) {
+    /*function deleteWebsite(websiteId) {
         return model
             .websiteModel
             .findWebsiteById(websiteId)
@@ -117,7 +117,76 @@ module.exports = function () {
                             });
                 }
             );
+    }*/
+
+
+    function deleteWebsite(websiteId) {
+        return WebsiteModel
+            .findById(websiteId)
+            .then(
+                function (website) {
+                    var count = 0;
+                    var listOfPageIds = [];
+
+                    website.pages.forEach(function (page) {
+                        listOfPageIds.push(page.valueOf());
+                    });
+
+                    count = 0;
+
+                    return recursiveDeletionOfPages(count, listOfPageIds);
+
+                    function recursiveDeletionOfPages(currentCount, inputListOfPageIds) {
+                        if (currentCount === inputListOfPageIds.length) {
+                            return model
+                                .websiteModel
+                                .findWebsiteById(websiteId)
+                                .then(
+                                    function (website) {
+                                        var userId = website._user;
+                                        return WebsiteModel
+                                            .remove({_id: website._id.valueOf()})
+                                            .then(
+                                                function (response) {
+                                                    model
+                                                        .userModel
+                                                        .findUserById(userId.valueOf())
+                                                        .then(
+                                                            function (user) {
+                                                                const index = user.websites.indexOf(website._id);
+                                                                user.websites.splice(index, 1);
+                                                                return user.save();
+                                                            },
+                                                            function (error) {
+                                                            }
+                                                        );
+                                                },
+                                                function () {
+
+                                                });
+                                    }
+                                );
+                        } else {
+                            return model
+                                .pageModel
+                                .deletePage(inputListOfPageIds[currentCount])
+                                .then(
+                                    function (response) {
+                                        return recursiveDeletionOfPages(currentCount + 1, inputListOfPageIds);
+                                    },
+                                    function (error) {
+                                        return error;
+                                    }
+                                );
+                        }
+
+                    }
+                },
+                function (error) {
+
+                });
     }
+
 
     /*function deleteWebsite(websiteId) {
         return model
