@@ -62,12 +62,7 @@ module.exports = function () {
             }});
     }
 
-    /*function deleteUser(userId) {
-     return UserModel.remove({_id: userId});
-     }*/
-
     function deleteUser(userId) {
-        //return UserModel.remove({_id: userId});
         return UserModel
             .findById(userId)
             .then(

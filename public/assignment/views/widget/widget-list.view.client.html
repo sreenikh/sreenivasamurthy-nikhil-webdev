@@ -40,7 +40,7 @@
                     <h6 ng-switch-when="6"
                         class="zero-margin-top word-wrap-break-word">{{widget.text}}</h6>
                 </div>
-                <div ng-switch-when="YOUTUBE"
+                <!--<div ng-switch-when="YOUTUBE"
                      class="relative-position widget-list-element-top-bottom-margin">
                     <div class="container-fluid zero-right-padding">
                         <div class="embed-responsive-16by9">
@@ -48,6 +48,14 @@
                                     ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"
                                     width="{{widget.width}}%"
                                     height="{{model.get16by9Height(widget.width)}}%"></iframe>
+                        </div>
+                    </div>
+                </div>-->
+                <div ng-switch-when="YOUTUBE"
+                     class="relative-position widget-list-element-top-bottom-margin">
+                    <div class="container-fluid zero-right-padding">
+                        <div class="youtube-widget">
+                            <iframe ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"></iframe>
                         </div>
                     </div>
                 </div>

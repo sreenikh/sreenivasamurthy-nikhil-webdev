@@ -14,6 +14,8 @@
 
         vm.searchPhotos = searchPhotos;
         vm.selectPhoto = selectPhoto;
+        vm.navigateToEditWidget = navigateToEditWidget;
+        vm.navigateToProfile = navigateToProfile;
 
         var userId = $routeParams.uid;
         var websiteId = $routeParams.wid;
@@ -47,6 +49,14 @@
                 })
                 .error(function (error) {
                 });
+        }
+
+        function navigateToEditWidget() {
+            $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+        }
+
+        function navigateToProfile() {
+            $location.url("/user/" + userId);
         }
     }
 })();

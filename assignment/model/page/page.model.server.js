@@ -88,39 +88,6 @@ module.exports = function () {
         );
     }
 
-    /*function deletePage(pageId) {
-        return model
-            .pageModel
-            .findPageById(pageId)
-            .then(
-                function (page) {
-                    var websiteId = page._website;
-                    return PageModel
-                        .remove({_id: page._id.valueOf()})
-                        .then(
-                            function (response) {
-                                model
-                                    .websiteModel
-                                    .findWebsiteById(websiteId.valueOf())
-                                    .then(
-                                        function (website) {
-                                            const index = website.pages.indexOf(page._id);
-                                            website.pages.splice(index, 1);
-                                            return website.save();
-                                        },
-                                        function (error) {
-                                        }
-                                    );
-                            },
-                            function () {
-
-                            });
-                }
-            );
-
-    }*/
-
-
     function deletePage(pageId) {
         return PageModel
             .findById(pageId)
