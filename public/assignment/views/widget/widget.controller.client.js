@@ -104,6 +104,7 @@
         vm.navigateToProfile = navigateToProfile;
         vm.updateWidget = updateWidget;
         vm.deleteWidget = deleteWidget;
+        vm.navigateToFlickrSearch = navigateToFlickrSearch;
 
         function enlistWidgets() {
             $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
@@ -111,6 +112,10 @@
 
         function navigateToProfile() {
             $location.url("/user/" + userId);
+        }
+        
+        function navigateToFlickrSearch() {
+            $location.url("/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId + "/flickr");
         }
 
         function updateWidget() {
@@ -158,6 +163,7 @@
         vm.addHtmlWidget = addHtmlWidget;
         vm.addImageWidget = addImageWidget;
         vm.addYouTubeWidget = addYouTubeWidget;
+        vm.addTextWidget = addTextWidget;
         vm.navigateToProfile = navigateToProfile;
 
         function enlistWidgets() {
@@ -185,6 +191,11 @@
         function addYouTubeWidget() {
             //var widget = {"widgetType": "YOUTUBE", "pageId": "321", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
             var widget = {"type": "YOUTUBE", "width": "100%", "url": "https://youtu.be/AM2Ivdi9c4E"};
+            addWidget(widget);
+        }
+
+        function addTextWidget() {
+            var widget = {"type": "TEXT", "text": "Sample text"};
             addWidget(widget);
         }
 
