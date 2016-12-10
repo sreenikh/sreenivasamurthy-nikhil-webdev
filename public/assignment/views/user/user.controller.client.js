@@ -16,20 +16,6 @@
         var vm = this;
         vm.login = login;
 
-        /*function login(username, password) {
-            UserService
-                .findUserByCredentials(username, password)
-                .success(function (user) {
-                    if ('0' === user) {
-                        vm.error = "Invalid username or password";
-                    } else {
-                        $location.url("/user/" + user._id);
-                    }
-                })
-                .error(function (e) {
-                    console.log(e);
-                });
-        }*/
         function login(username, password) {
             UserService
                 .login(username, password)
@@ -111,15 +97,6 @@
         var userId = $routeParams.uid;
 
         function init() {
-            /*UserService
-                .findUserById(userId)
-                .success(function (user) {
-                    if ('0' !== user) {
-                        vm.user = user;
-                    }
-                })
-                .error(function (error) {
-                });*/
             UserService
                 .findCurrentUser()
                 .success(function (user) {

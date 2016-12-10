@@ -6,6 +6,7 @@ module.exports = function (app, model) {
     "use strict";
 
     var passport = require('passport');
+    var bcrypt = require("bcrypt-nodejs");
     var LocalStrategy = require('passport-local').Strategy;
     var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
     var FacebookStrategy = require('passport-facebook').Strategy;
