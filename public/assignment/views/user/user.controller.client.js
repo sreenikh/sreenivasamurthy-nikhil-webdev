@@ -16,9 +16,23 @@
         var vm = this;
         vm.login = login;
 
-        function login(username, password) {
+        /*function login(username, password) {
             UserService
                 .findUserByCredentials(username, password)
+                .success(function (user) {
+                    if ('0' === user) {
+                        vm.error = "Invalid username or password";
+                    } else {
+                        $location.url("/user/" + user._id);
+                    }
+                })
+                .error(function (e) {
+                    console.log(e);
+                });
+        }*/
+        function login(username, password) {
+            UserService
+                .login(username, password)
                 .success(function (user) {
                     if ('0' === user) {
                         vm.error = "Invalid username or password";
@@ -92,15 +106,26 @@
         vm.saveProfile = saveProfile;
         vm.navigateToProfile = navigateToProfile;
         vm.unregisterUser = unregisterUser;
+        vm.logout = logout;
 
         var userId = $routeParams.uid;
 
         function init() {
-            UserService
+            /*UserService
                 .findUserById(userId)
                 .success(function (user) {
                     if ('0' !== user) {
                         vm.user = user;
+                    }
+                })
+                .error(function (error) {
+                });*/
+            UserService
+                .findCurrentUser()
+                .success(function (user) {
+                    if ('0' !== user) {
+                        vm.user = user;
+                        userId = vm.user._id;
                     }
                 })
                 .error(function (error) {
@@ -152,6 +177,14 @@
                     }
                 })
                 .error(function (error) {
+                })
+        }
+        
+        function logout() {
+            UserService
+                .logout()
+                .success(function () {
+                    $location.url("/login");
                 })
         }
     }

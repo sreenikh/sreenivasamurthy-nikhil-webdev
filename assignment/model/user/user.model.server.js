@@ -12,6 +12,7 @@ module.exports = function () {
     var api = {
         createUser: createUser,
         findUserById: findUserById,
+        findUserByGoogleId: findUserByGoogleId,
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
         findWebsiteObjectIdsForUser: findWebsiteObjectIdsForUser,
@@ -28,6 +29,10 @@ module.exports = function () {
 
     function findUserById(userId) {
         return UserModel.findById(userId);
+    }
+
+    function findUserByGoogleId(googleId) {
+        return UserModel.findOne({'google.id': googleId});
     }
 
     function findUserByUsername(username) {
