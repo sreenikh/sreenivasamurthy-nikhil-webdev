@@ -8,6 +8,7 @@ module.exports = function (app, model) {
     var passport = require('passport');
     var LocalStrategy = require('passport-local').Strategy;
     var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+    var FacebookStrategy = require('passport-facebook').Strategy;
     var cookieParser = require('cookie-parser');
     var session = require('express-session');
 
@@ -17,8 +18,11 @@ module.exports = function (app, model) {
         callbackURL  : process.env.GOOGLE_CALLBACK_URL
     };
 
-    //Client ID : 84139842365-b2lfd7cshbdtsdihbhl2c54i3vnqfvet.apps.googleusercontent.com
-    //Cliend URL: KWM1H-JrhxRNTIH_pICulBeR
+    var facebookConfig = {
+        clientID     : process.env.FACEBOOK_CLIENT_ID,
+        clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+    };
 
     app.use(session({
         secret: 'this is a secret',
@@ -31,10 +35,12 @@ module.exports = function (app, model) {
 
     passport.use(new LocalStrategy(localStrategy));
     passport.use(new GoogleStrategy(googleConfig, googleStrategy));
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
     app.post('/api/login', passport.authenticate('local'), login);
     app.post('/api/checkLogin', checkLogin);
     app.post('/api/logout', logout);
@@ -48,6 +54,12 @@ module.exports = function (app, model) {
 
     app.get('/auth/google/callback',
         passport.authenticate('google', {
+            successRedirect: '/assignment/#/user',
+            failureRedirect: '/assignment/#/login'
+        }));
+
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
             successRedirect: '/assignment/#/user',
             failureRedirect: '/assignment/#/login'
         }));
@@ -126,6 +138,43 @@ module.exports = function (app, model) {
                             }
                         };
                         return model.userModel.createUser(newGoogleUser);
+                    }
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            )
+            .then(
+                function(user){
+                    return done(null, user);
+                },
+                function(err){
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
+    function facebookStrategy(token, refreshToken, profile, done) {
+        model
+            .userModel
+            .findUserByFacebookId(profile.id)
+            .then(
+                function(user) {
+                    if(user) {
+                        return done(null, user);
+                    } else {
+                        var names = profile.displayName.split(" ");
+                        var newFacebookUser = {
+                            lastName:  names[1],
+                            firstName: names[0],
+                            username: profile.username ? profile.username : names[0].toLowerCase() + '.' + names[1].toLowerCase(),
+                            email:     profile.emails ? profile.emails[0].value : "",
+                            facebook: {
+                                id:    profile.id,
+                                token: token
+                            }
+                        };
+                        return model.userModel.createUser(newFacebookUser);
                     }
                 },
                 function(err) {
