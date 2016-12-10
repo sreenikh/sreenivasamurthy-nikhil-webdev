@@ -86,14 +86,14 @@ module.exports = function (app, model) {
     function localStrategy(username, password, done) {
         model
             .userModel
-            .findUserByCredentials(username, password)
+            .findUserByUsername(username)
             .then(
                 function (listOfExistingUsers) {
                     if (0 === listOfExistingUsers.length) {
                         return done(null, false);
                     } else {
                         var user = listOfExistingUsers[0];
-                        if (user.username === username && user.password === password) {
+                        if (user.username === username && bcrypt.compareSync(password, user.password)) {
                             return done(null, user);
                         } else {
                             return done(null, false);
@@ -206,8 +206,38 @@ module.exports = function (app, model) {
         res.send(200);
     }
 
+    /*function createUser(req, res) {
+        var user = req.body;
+        model
+            .userModel
+            .findUserByUsername(user.username)
+            .then(
+                function (listOfExistingUsers) {
+                    if (0 !== listOfExistingUsers.length) {
+                        res.send('0');
+                    } else {
+                        model
+                            .userModel
+                            .createUser(user)
+                            .then(
+                                function (newUser) {
+                                    res.send(newUser)
+                                },
+                                function (error) {
+                                    res.sendStatus(400).send(error);
+                                }
+                            );
+                    }
+                },
+                function (error) {
+                    res.sendStatus(400).send(error);
+                }
+            );
+    }*/
+
     function createUser(req, res) {
         var user = req.body;
+        user.password =  bcrypt.hashSync(user.password);
         model
             .userModel
             .findUserByUsername(user.username)

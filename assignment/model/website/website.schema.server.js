@@ -10,6 +10,6 @@ module.exports = function () {
         description: String,
         pages: [{type: mongoose.Schema.Types.ObjectId, ref: 'PageModel'}],
         dateCreated: {type: Date, default: Date.now}
-    }, {collection: "website"});
+    }, {collection: "assignment.website"});
     return WebsiteSchema;
 };

@@ -76,7 +76,19 @@
                         document.getElementById("password1").value = "";
                         document.getElementById("password2").value = "";
                     } else {
-                        $location.url("/user/" + newlyCreatedUser._id);
+                        //$location.url("/user/" + newlyCreatedUser._id);
+                        UserService
+                            .login(newlyCreatedUser.username, newlyCreatedUser.password)
+                            .success(function (loggedInUser) {
+                                if ('0' === loggedInUser) {
+                                    vm.error = "Invalid username or password";
+                                } else {
+                                    $location.url("/user/" + loggedInUser._id);
+                                }
+                            })
+                            .error(function (e) {
+                                console.log(e);
+                            });
                     }
                 })
                 .error(function (error) {
