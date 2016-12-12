@@ -123,6 +123,24 @@ body {
     height: 100%;
 }
 
+.ng-submitted.ng-invalid {
+    background-color: red;
+}
+.ng-submitted .ng-invalid {
+    background-color: lightcoral;
+}
+form {
+    padding: 2px;
+}
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+.ng-invalid .error {
+    color: white;
+    margin-bottom: 10px;
+}
+
 /*.vr {
     display: block;
     width:10px;
