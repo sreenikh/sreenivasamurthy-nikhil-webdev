@@ -78,7 +78,7 @@
                     } else {
                         //$location.url("/user/" + newlyCreatedUser._id);
                         UserService
-                            .login(newlyCreatedUser.username, newlyCreatedUser.password)
+                            .login(newlyCreatedUser.username, password1)
                             .success(function (loggedInUser) {
                                 if ('0' === loggedInUser) {
                                     vm.error = "Invalid username or password";
