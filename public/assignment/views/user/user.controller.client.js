@@ -32,18 +32,29 @@
         }
     }
 
-    function RegisterController($location, UserService) {
+    function RegisterController($scope, $location, UserService) {
         var vm = this;
         vm.register = register;
 
         function register(username, firstName, lastName, password1, password2, email, phone) {
+
+            var errorFlag = false;
+
+            if(!$scope.form1.$valid) {
+                vm.error = "There is something wrong in the form";
+                errorFlag = true;
+                //return;
+            }
+
             if (null === username || "" === username || undefined === username) {
                 vm.usernameError = "Username cannot be empty";
-                return;
+                errorFlag = true;
+                //return;
             }
             if (null === firstName || "" === firstName || undefined === firstName) {
                 vm.firstNameError = "First name cannot be empty";
-                return;
+                errorFlag = true;
+                //return;
             }
             if (undefined === password1 || undefined === password2 ||
                     null === password1 || null === password2 ||
@@ -51,14 +62,21 @@
                 vm.passwordError = "Empty Password(s)";
                 document.getElementById("password1").value="";
                 document.getElementById("password2").value="";
-                return;
+                errorFlag = true;
+                //return;
             }
             if (password1 !== password2) {
                 vm.passwordError = "Passwords don't match!";
                 document.getElementById("password1").value="";
                 document.getElementById("password2").value="";
+                errorFlag = true;
+                //return;
+            }
+
+            if (errorFlag) {
                 return;
             }
+
             var user = {
                 username: username,
                 firstName: firstName,

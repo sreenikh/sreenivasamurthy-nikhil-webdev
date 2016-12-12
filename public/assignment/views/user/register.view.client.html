@@ -1,4 +1,4 @@
-<div>
+<!--<div>
     <div class="container">
         <h1>Register</h1>
         <form>
@@ -53,10 +53,9 @@
         <a class="btn btn-danger btn-block"
            href="#/login">Cancel</a>
     </div>
-</div>
+</div>-->
 
 
-<!--
 <div>
     <div class="container">
         <h1>Register</h1>
@@ -99,7 +98,7 @@
             <div ng-show="form1.email.$invalid && form1.$submitted"
                  class="error">The email format is wrong</div>
             <input id="email"
-                   type="text"
+                   type="email"
                    ng-model="model.email"
                    class="form-control"
                    placeholder="E-Mail"/>
@@ -121,11 +120,11 @@
                    ng-model="model.password2"
                    class="form-control"
                    placeholder="Verify Password"/>
+            <button ng-click="model.register(model.username, model.firstName, model.lastName, model.password1, model.password2, model.email, model.phone)"
+               type="submit"
+               class="btn btn-primary btn-block">Register</button>
         </form>
-        <a ng-click="model.register(model.username, model.firstName, model.lastName, model.password1, model.password2, model.email, model.phone)"
-           type="submit"
-           class="btn btn-primary btn-block">Register</a>
         <a class="btn btn-danger btn-block"
            href="#/login">Cancel</a>
     </div>
-</div>-->
+</div>
